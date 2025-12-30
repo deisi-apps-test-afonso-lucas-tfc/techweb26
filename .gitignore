@@ -3,6 +3,8 @@
 *.pot
 *.pyc
 __pycache__
+/staticfiles/
+
 
 # Backup files # 
 *.bak 
