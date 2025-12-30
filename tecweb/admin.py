@@ -31,24 +31,25 @@ class FicheiroInline(admin.TabularInline):
     extra = 1
     fields = ('nome', 'ficheiro')
     
+
 class SessaoEventoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'duracao')
-    ordering = ('titulo',)
+    list_display = ('titulo', 'ano')
+    ordering = ('-ano', 'titulo')
     search_fields = ('titulo',)
-    filter_horizontal = ('oradores', 'entidades')
-    inlines = [HorarioInline, FotografiaInline, FicheiroInline] 
-    save_as = True  
-    
+    filter_horizontal = ('oradores', 'entidades')  
+    inlines = [HorarioInline, FotografiaInline, FicheiroInline]
+    save_as = True
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
         try:
-            orador = request.user.orador  # se houver OneToOne User → Orador
+            orador = request.user.orador
             return qs.filter(oradores=orador)
         except Orador.DoesNotExist:
-            # Se o user não tiver um Orador associado, retorna vazio
-            return qs.none()
+            return qs.none()  # Users sem orador não veem nada
+
     
 class HorarioAdmin(admin.ModelAdmin):
     list_display = ('inicio', 'fim')
@@ -77,12 +78,26 @@ class OradorAdmin(admin.ModelAdmin):
 
     short_cv.short_description = "CV"
 
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         # Se o user pertence ao grupo 'orador', mostra apenas o Orador associado
         if request.user.groups.filter(name='orador').exists():
             return qs.filter(user=request.user)
-        return qs  # Para admins e outros grupos, mostra todos
+        return qs  # Admins e outros grupos veem todos
+
+    # Garante que o orador só pode alterar o seu próprio registro
+    def has_change_permission(self, request, obj=None):
+        if obj is not None and request.user.groups.filter(name='orador').exists():
+            return obj.user == request.user
+        return super().has_change_permission(request, obj)
+
+    # Garante que o orador não pode deletar outros registros
+    def has_delete_permission(self, request, obj=None):
+        if obj is not None and request.user.groups.filter(name='orador').exists():
+            return obj.user == request.user
+        return super().has_delete_permission(request, obj)
+
 
 
 class ColorPickerWidget(forms.TextInput):
