@@ -11,26 +11,26 @@
             <p>A TecWeb conta com a participação de {{ entidades.count }} empresas e entidades. Explore em baixo os oradores e formadores, assim como as sessões em que estão envolvidas. </p>
             <div class="container mt-4">
                 <div class="accordion" id="entidadesAccordion">
-                    {% for entidade in entidades %}
+                    {% for e in entidades %}
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#entidade{{ forloop.counter }}" aria-expanded="false">
                                 <p>
-                                    <img src="{{ entidade.logotipo.url }}"
+                                    <img src="{{ e.entidade.logotipo.url }}"
                                         class="d-block mx-lg-auto img-fluid rounded  float-start"
-                                        alt="{{ entidade.nome }}" style="max-height: 50px; width:auto;" loading="lazy">
+                                        alt="{{ e.entidade.nome }}" style="max-height: 50px; width:auto;" loading="lazy">
                                 </p>
                         </h2>
                         <div id="entidade{{ forloop.counter }}" class="accordion-collapse collapse"
                             data-bs-parent="#entidadesAccordion">
                             <div class="accordion-body" style="background: #e7f1ff7a;">
                         
-                                <div><b>{% if entidade.orador_set.count > 1 %}Oradores{% else %}Orador{% endif %}:</b></div>
+                                <div><b>{% if e.oradores.count > 1 %}Oradores{% else %}Orador{% endif %}:</b></div>
         
                                 <div class="container mb-4" style="padding-left:0 !important;">
                                     <div class="accordion" id="oradoresAccordion">
-                                        {% for orador in entidade.orador_set.all %}
+                                        {% for orador in e.oradores %}
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
                                                 <button class="accordion-button collapsed" type="button"
@@ -98,13 +98,13 @@
                                     </div>
                                 </div>
                                 
-                                <div><b>{% if entidade.sessoes.count > 1 %}Sessões{% else %}Sessão{% endif %}:</b></div>
-                                {% for sessao in entidade.sessoes.all %}
+                                <div><b>{% if e.sessoes.count > 1 %}Sessões{% else %}Sessão{% endif %}:</b></div>
+                                {% for sessao in e.sessoes %}
                                    <p><a href="{% url 'tecweb:detalhe_sessao' sessao.id %}" class="btn btn-primary">{{ sessao }}</a></p>
                                 {% endfor %}
 
                                 <div><b>Website:</b></div>
-                                <p><b></b> <a href="{{ entidade.link }}" target="_blank"> {{ entidade.link }} </a></p>
+                                <p><b></b> <a href="{{ entidade.link }}" target="_blank"> {{ e.entidade.link }} </a></p>
                                 
                             </div>
                         </div>

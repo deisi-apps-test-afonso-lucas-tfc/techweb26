@@ -89,11 +89,39 @@ def oradores_view(request):
     return render(request, 'tecweb/oradores.html', context)
 
 
+from django.db.models import Prefetch
 
 def empresas_view(request):
 
     context = {}
-    context['entidades'] = Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+    
+
+    entidades = Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+
+    lista = []
+    
+    for entidade in entidades:
+        sessoes = (
+            SessaoEvento.objects
+            .filter(entidades=entidade, ano=ano_atual)
+            .distinct()
+            .order_by('titulo') 
+        )
+    
+        oradores = (
+            Orador.objects
+            .filter(sessoes__entidades=entidade, sessoes__ano=ano_atual)
+            .distinct()
+            .order_by('nome')
+        )
+    
+        lista.append({
+            'entidade': entidade,
+            'sessoes': list(sessoes),
+            'oradores': list(oradores)     
+        })
+
+    context['entidades'] = lista
 
     superuser=None
     if request.user.is_authenticated:
