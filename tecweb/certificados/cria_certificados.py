@@ -7,7 +7,7 @@ from io import BytesIO
 import os, json
 
 
-alunos = []
+alunos =  [] 
 
 for i in Inquerito.objects.all():
     titulo = i.inscricao.sessao.titulo
