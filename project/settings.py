@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-1(5%9eefdb@&g3q&+dyvqgogxoi67au2tfv2h*&59#&be5qy8&
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = True
-ALLOWED_HOSTS = ['tecweb.ulusofona.pt', '193.137.75.199', '127.0.0.1','localhost', 'https://tecweb26.pw.deisi.ulusofona.pt', 'tecweb26.pw.deisi.ulusofona.pt']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost', 
+    'tecweb26.pw.deisi.ulusofona.pt']
+
 
 CSRF_TRUSTED_ORIGINS = [
     "https://tecweb26.pw.deisi.ulusofona.pt",

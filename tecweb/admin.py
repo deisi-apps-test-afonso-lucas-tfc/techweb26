@@ -77,6 +77,13 @@ class OradorAdmin(admin.ModelAdmin):
 
     short_cv.short_description = "CV"
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        # Se o user pertence ao grupo 'orador', mostra apenas o Orador associado
+        if request.user.groups.filter(name='orador').exists():
+            return qs.filter(user=request.user)
+        return qs  # Para admins e outros grupos, mostra todos
+
 
 class ColorPickerWidget(forms.TextInput):
     input_type = "color"
