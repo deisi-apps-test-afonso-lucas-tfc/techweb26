@@ -1,5 +1,7 @@
 # comentei no menu fotografias! ativar no final
 
+# nao esquecer de sempre remover do git o db.sqlite3
+
 # Instruções
 
 1. Criar DB ou obter cópia em:
