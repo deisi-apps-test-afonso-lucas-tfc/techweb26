@@ -1,0 +1,41 @@
+{% extends "tecweb/layout.html" %}
+{% load static %}
+{% load markdownify %}
+
+{% block content %}
+<main class="container-fluid mt-5">
+    <div class="container px-3">
+        <div class="row flex-lg-row-reverse g-3 mt-4">
+            <h2 class="display-5 fw-bold text-body-emphasis lh-1" style="margin-bottom: 0 !important; margin-top:3ch !important;">Fotografias</h2>
+
+                
+                   {% for sessao in sessoes %} 
+		   {% if sessao.fotografias.exists %}
+                       <h3 style="text-align:flex-start;margin-top:50px;" class="display-7 fw-bold text-body-emphasis lh-1 mt-6 mb-0">
+                           <a href="{% url 'tecweb:detalhe_sessao' sessao.id %}">
+                              {{ sessao.titulo  }}
+                           </a>
+                      </h3>
+                <p style="margin-top:10px !important">  <span>
+                <i class="fas fa-calendar"></i>
+                {% for horario in sessao.horarios.all %}
+                    {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M" }}
+                </span>
+                <span> &nbsp; <i class="fas fa-clock"></i> {{ horario.inicio|date:"H:i" }}-{{ horario.fim|date:"H:i" }}{% endif %}
+                {% endfor %}
+                </span>
+                </p>
+
+                   {% endif %}
+                   {% for foto in sessao.fotografias.all %}
+                        <div class="col-12 col-md-6 mb-3" style="display:flex; flex-direction:column; justify-content:center;align-items:center;">
+                            <img src="{{ foto.foto.url }}" class="img-fluid rounded shadow" alt="Foto">
+                            
+                        </div>
+                    {% endfor %}
+                    {% endfor %}
+                
+    </div>
+</main>
+
+{% endblock %}

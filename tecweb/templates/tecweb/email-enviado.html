@@ -1,0 +1,18 @@
+{% extends "tecweb/layout.html" %}
+{% load socialaccount %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2 class="display-5 fw-bold text-body-emphasis lh-1 text-center" style="font-weight: bold; margin-top:3ch !important;">Email Enviado</h2>
+
+        <div class="text-center" style="margin-top:20px; padding:20px; background:#d4fbd4; border-radius:10px;">
+          <p>Verifique a sua conta de email, <b>{{ email }}</b>. <br>
+            Foi-lhe enviada uma mensagem com um link para se autenticar. <br>
+            Este processo dispensa o uso de uma password.</p>
+        </div>
+
+    </div>
+  </div>
+{% endblock %}

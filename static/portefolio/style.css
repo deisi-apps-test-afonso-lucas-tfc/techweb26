@@ -1,0 +1,84 @@
+.header-logo {
+    height: 100px;
+}
+
+.footer-logo {
+    height: 150px;
+}
+
+.deisi-logo {
+    height: 50px;
+    background-color: white;
+}
+
+.event-img{
+    width: 500px;
+    height: auto;
+}
+
+.linkedin{
+    height: 50px;
+    width: 50px;
+}
+
+.img-team {
+    object-fit: cover;
+}
+
+.card-title-bg {
+    background-color: #1c2f4d;
+}
+
+.cartao{
+    border-color: #1c2f4d;
+    max-width: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cartao:hover .overlay {
+    opacity: 1;
+}
+
+.overlay-text {
+    text-align: center;
+}
+
+.card-title-bg {
+    position: relative;
+    z-index: 1;
+}
+
+.nav-item {
+    margin: 0 15px;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+}
+
+footer a {
+    color: #f8f9fa;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

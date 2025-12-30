@@ -1,0 +1,48 @@
+{% extends "tecweb/layout.html" %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center ,mt-5 mb-4">
+            <h1 class="h3 m-0">Alunos Inscritos | <strong>{{ sessao.titulo_curto }}</strong></h1>
+            <span class="badge bg-primary fs-6">{{ sessao.vagas_disponiveis }} vagas disponíveis</span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            {% for orador in sessao.oradores.all %}
+                <div class="mb-3">
+                    {% if orador.foto %}
+                        <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
+                    {% endif %}
+                    <strong>{{ orador.nome }}</strong>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if inscritos %}
+            <div class="mb-3">
+                <a href="{% url 'tecweb:exportar_inscritos' sessao.id %}" class="btn btn-outline-secondary btn-sm">
+                    Exportar CSV
+                </a>
+            </div>
+
+            <ul class="list-group">
+                {% for inscricao in inscritos %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ inscricao.aluno.user.get_full_name }}</strong> ({{ inscricao.aluno.numero_aluno }})<br>
+                            <small class="text-muted">{{ inscricao.aluno.user.email }}</small>
+                        </div>
+                        <span class="text-end">
+                            {{ inscricao.aluno.ano_curricular }}º ano | {{ inscricao.aluno.curso }}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">Sem alunos inscritos.</p>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "portefolio/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class="container">
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+            <h1 class="border-bottom mb-4">Equipa</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 gy-3 gx-1">
+                {% for membro in membros %}
+                    <div class="col">
+                        <div class="card shadow-sm border-5 cartao">
+                            <img src="{{ membro.foto.url }}" class="img-team w-100">
+                            <div class="overlay">
+                                <div class="overlay-text">
+                                    <p class="fw-bold">{{ membro.nome }}</p>
+                                    <p>{{ membro.curso }}</p>
+                                    <p>{{ membro.ano }} ano</p>
+                                </div>
+                            </div>
+                            <div class="card-title-bg text-white text-center py-2 d-flex flex-column">
+                                <span class="fw-bold fs-5">{{ membro.cargo }}</span>
+                                <div>
+                                    <a href="{{ membro.linkedin }}">
+                                        <button type="button" class="btn btn-sm btn-light mt-2">LinkedIn</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

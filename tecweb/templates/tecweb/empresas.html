@@ -1,0 +1,119 @@
+{% extends "tecweb/layout.html" %}
+{% load static %}
+{% load markdownify %}
+
+{% block content %}
+<main class="container-fluid mt-5">
+    <div class="container px-3">
+        <div class="row flex-lg-row g-5 mt-4">
+
+            <h2 class="display-5 fw-bold text-body-emphasis lh-1" style="margin-bottom: 0 !important;">Empresas Participantes</h2>
+            <p>A TecWeb conta com a participação de {{ entidades.count }} empresas e entidades. Explore em baixo os oradores e formadores, assim como as sessões em que estão envolvidas. </p>
+            <div class="container mt-4">
+                <div class="accordion" id="entidadesAccordion">
+                    {% for entidade in entidades %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#entidade{{ forloop.counter }}" aria-expanded="false">
+                                <p>
+                                    <img src="{{ entidade.logotipo.url }}"
+                                        class="d-block mx-lg-auto img-fluid rounded  float-start"
+                                        alt="{{ entidade.nome }}" style="max-height: 50px; width:auto;" loading="lazy">
+                                </p>
+                        </h2>
+                        <div id="entidade{{ forloop.counter }}" class="accordion-collapse collapse"
+                            data-bs-parent="#entidadesAccordion">
+                            <div class="accordion-body" style="background: #e7f1ff7a;">
+                        
+                                <div><b>{% if entidade.orador_set.count > 1 %}Oradores{% else %}Orador{% endif %}:</b></div>
+        
+                                <div class="container mb-4" style="padding-left:0 !important;">
+                                    <div class="accordion" id="oradoresAccordion">
+                                        {% for orador in entidade.orador_set.all %}
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#orador{{ forloop.counter }}" aria-expanded="false">
+                                                    {% if orador.foto %}
+                                                    <img src="{{ orador.foto.url }}" alt="Foto Orador"
+                                                        class="rounded-circle me-2" width="40" height="40">
+                                                    {% endif %}
+                                                    <strong>{{ orador.nome }}</strong>{% if orador.entidade %}, {{ orador.entidade }} {% endif %}
+                                                </button>
+                                            </h2>
+                                            <div id="orador{{ forloop.counter }}" class="accordion-collapse collapse"
+                                                data-bs-parent="#oradoresAccordion">
+                                                <div class="accordion-body">
+                                                    {% if orador.cv %}
+                                                    <p><strong>Biografia:</strong> {{ orador.cv }}</p>
+                                                    {% endif %}
+                                                    {% if orador.linkedin or orador.orcid %}
+                                                    <p>
+                                                        {% if orador.linkedin %}
+                                                        <a href="{{ orador.linkedin }}" target="_blank"><abbr
+                                                                title="Linkedin">
+
+                                                                <svg height="25" viewBox="0 0 72 72" width="25"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <g fill="none" fill-rule="evenodd">
+                                                                        <path
+                                                                            d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z"
+                                                                            fill="#007EBB"></path>
+                                                                        <path
+                                                                            d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z"
+                                                                            fill="#FFF"></path>
+                                                                    </g>
+                                                                </svg>
+                                                            </abbr>
+
+                                                        </a>
+                                                        {% endif %}
+                                                        {% if orador.orcid %}
+                                                        <a href="https://orcid.org/{{ orador.orcid }}"><abbr
+                                                                title="Orcid"><svg width="32px" height="32px"
+                                                                    viewBox="0 0 32 32"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M16 0c-8.839 0-16 7.161-16 16s7.161 16 16 16c8.839 0 16-7.161 16-16s-7.161-16-16-16zM9.823 5.839c0.704 0 1.265 0.573 1.265 1.26 0 0.688-0.561 1.265-1.265 1.265-0.692-0.004-1.26-0.567-1.26-1.265 0-0.697 0.563-1.26 1.26-1.26zM8.864 9.885h1.923v13.391h-1.923zM13.615 9.885h5.197c4.948 0 7.125 3.541 7.125 6.703 0 3.439-2.687 6.699-7.099 6.699h-5.224zM15.536 11.625v9.927h3.063c4.365 0 5.365-3.312 5.365-4.964 0-2.687-1.713-4.963-5.464-4.963z" />
+                                                                </svg></abbr></a>
+                                                        {% endif %}
+                                                    </p>
+                                                    {% endif %}
+                                                    
+                                                    <p>{% if orador.sessoes.count > 1 %}Sessões{% else %}Sessão{% endif %} em que participou:</p>
+                                                    
+                                                    {% for sessao in orador.sessoes.all %}
+                                                    <p>
+                                                        <a href="{% url 'tecweb:detalhe_sessao' sessao.id %}"
+                                                            class="btn btn-outline-primary">{{ sessao }}</a>
+                                                    </p>
+                                                    {% endfor %}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <div><b>{% if entidade.sessoes.count > 1 %}Sessões{% else %}Sessão{% endif %}:</b></div>
+                                {% for sessao in entidade.sessoes.all %}
+                                   <p><a href="{% url 'tecweb:detalhe_sessao' sessao.id %}" class="btn btn-primary">{{ sessao }}</a></p>
+                                {% endfor %}
+
+                                <div><b>Website:</b></div>
+                                <p><b></b> <a href="{{ entidade.link }}" target="_blank"> {{ entidade.link }} </a></p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

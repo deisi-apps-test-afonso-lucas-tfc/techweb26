@@ -1,0 +1,164 @@
+[
+    {
+        "model": "tecweb.entidade",
+        "pk": 1,
+        "fields": {
+            "nome": "Quidgest",
+            "link": "https://quidgest.com/",
+            "logotipo": "tecweb/logos/quidgest_RCPiEao.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 2,
+        "fields": {
+            "nome": "Accenture",
+            "link": "https://www.accenture.com/pt-pt",
+            "logotipo": "tecweb/logos/accenture_khribH7.jpeg"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 3,
+        "fields": {
+            "nome": "Universidade Lusófona",
+            "link": "https://www.ulusofona.pt/",
+            "logotipo": "tecweb/logos/lusofona.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 4,
+        "fields": {
+            "nome": "Totalstor",
+            "link": "https://totalstor.com/",
+            "logotipo": "tecweb/logos/totalstor_1.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 5,
+        "fields": {
+            "nome": "SAS",
+            "link": "https://www.sas.com/pt_pt/home.html",
+            "logotipo": "tecweb/logos/sas_rY9HU07.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 6,
+        "fields": {
+            "nome": "Claranet",
+            "link": "https://www.claranet.com/pt/",
+            "logotipo": "tecweb/logos/CLARANET_LOGO_zZgpz0s.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 7,
+        "fields": {
+            "nome": "Compuworks",
+            "link": "https://compuworks.pt/",
+            "logotipo": "tecweb/logos/logo-compuworks.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 8,
+        "fields": {
+            "nome": "Salesforce",
+            "link": "https://www.salesforce.com/eu/",
+            "logotipo": "tecweb/logos/salesforce.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 9,
+        "fields": {
+            "nome": "Closer",
+            "link": "https://closer.pt/",
+            "logotipo": "tecweb/logos/closer-logo_cKVleWl.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 10,
+        "fields": {
+            "nome": "PDM",
+            "link": "https://www.pdmfc.com/",
+            "logotipo": "tecweb/logos/pdm.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 11,
+        "fields": {
+            "nome": "IBM",
+            "link": "https://www.ibm.com/us-en",
+            "logotipo": "tecweb/logos/ibm.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 12,
+        "fields": {
+            "nome": "Innowave",
+            "link": "https://innowave.tech/",
+            "logotipo": "tecweb/logos/innowave_cfNtfDO_hMiHxnr.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 13,
+        "fields": {
+            "nome": "CGI",
+            "link": "https://www.cgi.com/portugal/pt-pt",
+            "logotipo": "tecweb/logos/cgi.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 14,
+        "fields": {
+            "nome": "BHOUT",
+            "link": "https://www.bhout.com/pt",
+            "logotipo": "tecweb/logos/bout.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 15,
+        "fields": {
+            "nome": "DEISI/ECATI",
+            "link": "https://informatica.ulusofona.pt/",
+            "logotipo": "tecweb/logos/deisi_Wf4NWBl.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 16,
+        "fields": {
+            "nome": "CrossJoin",
+            "link": "https://www.crossjoin.pt/",
+            "logotipo": "tecweb/logos/crossjoin_w3LMNPE.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 17,
+        "fields": {
+            "nome": "Deloitte",
+            "link": "https://www.deloitte.com/pt/pt.html",
+            "logotipo": "tecweb/logos/deloitte.png"
+        }
+    },
+    {
+        "model": "tecweb.entidade",
+        "pk": 18,
+        "fields": {
+            "nome": "aluno DEISI/ECATI",
+            "link": "https://informatica.ulusofona.pt/",
+            "logotipo": "tecweb/logos/deisi_s75rk43.png"
+        }
+    }
+]

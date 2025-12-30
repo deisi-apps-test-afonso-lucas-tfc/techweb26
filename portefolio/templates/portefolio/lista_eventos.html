@@ -1,0 +1,23 @@
+{% extends "portefolio/layout.html" %}
+{% load static %}
+
+{% block content %}
+<main class="container">
+    <h1 class="fs-2 border-bottom mt-3 py-2">Eventos</h1>
+    <div class="row mb-5">
+        {% for evento in eventos %}
+            <div class="container px-4 py-5 border-bottom">
+                <div class="row align-items-center g-5 {% if forloop.counter|divisibleby:2 %}flex-lg-row-reverse{% endif %}">
+                    <div class="col-10 col-sm-8 col-lg-6">
+                        <img src="{{ evento.foto.url }}" class="d-block mx-lg-auto img-fluid rounded event-img" alt="{{ evento.titulo }}" width="700" height="500" loading="lazy">
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">{{ evento.titulo }}</h2>
+                        <p class="lead">{{ evento.descricao|linebreaks }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

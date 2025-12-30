@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEDI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/portefolio/style.css">
+    <link rel="icon" type="image/png" href="https://nedi.pythonanywhere.com/static/portefolio/imgs/logo.png">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'portefolio:index' %}">
+                <img src="{% static 'portefolio/imgs/logo.png' %}" alt="NEDI Logo" class="header-logo me-2">
+                <h4 class="mb-0">NEDI</h4>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="{% url 'portefolio:about' %}" class="nav-link">Sobre</a></li>
+                    <li class="nav-item"><a href="{% url 'portefolio:eventos' %}" class="nav-link">Eventos</a></li>
+                    <li class="nav-item"><a href="{% url 'portefolio:clubes' %}" class="nav-link">Clubes</a></li>
+                    <li class="nav-item"><a href="{% url 'portefolio:team' %}" class="nav-link">Equipa</a></li>
+                </ul>
+                <a href="https://www.instagram.com/nedi_ulusofona" target="_blank" class="text-white fs-4 ms-3">
+                    <i class="bi bi-instagram"></i>
+                </a>
+                <a href="https://linkedin.com/company/nedi-universidade-lusófona/" target="_blank" rel="noopener noreferrer" class="text-white fs-4 ms-3">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3 text-center text-md-start">
+                <a href="/">
+                    <img src="{% static 'portefolio/imgs/logo.png' %}" alt="NEDI Logo" class="footer-logo mb-2">
+                </a>
+                <p class="text-body-white fs-5">Núcleo de Estudantes de Informática</p>
+                <p class="text-body-white">© NEDI 2026</p>
+            </div>
+
+            <div class="col-6 col-md-4 mb-3">
+                <h5>Páginas:</h5>
+                <ul class="nav flex-column mt-3">
+                    <li class="nav-item mb-2"><a href="{% url 'portefolio:index' %}" class="nav-link p-0 text-light">Início</a></li>
+                    <li class="nav-item mb-2"><a href="{% url 'portefolio:about' %}" class="nav-link p-0 text-light">Sobre</a></li>
+                    <li class="nav-item mb-2"><a href="{% url 'portefolio:eventos' %}" class="nav-link p-0 text-light">Eventos</a></li>
+                    <li class="nav-item mb-2"><a href="{% url 'portefolio:clubes' %}" class="nav-link p-0 text-light">Clubes</a></li>
+                    <li class="nav-item mb-2"><a href="{% url 'portefolio:team' %}" class="nav-link p-0 text-light">Quem Somos?</a></li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-4 mb-3">
+                <h5>Contactos:</h5>
+                <ul class="nav flex-column mt-3">
+                    <li class="nav-item">
+                        <a href="https://www.google.com/maps?q=Campo+Grande+376,+1749-024+Lisboa" target="_blank" class="text-body-white">
+                            <i class="bi bi-geo-alt me-2"></i>Campo Grande 376, 1749-024 Lisboa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mailto:nedi@ulusofona.pt" class="text-body-white">
+                            <i class="bi bi-envelope me-2"></i>nedi@ulusofona.pt
+                        </a>
+                    </li>
+                </ul>
+                <h5 class="mt-3">Powered By:</h5>
+                <div class="d-flex flex-column">
+                    <a href="https://informatica.ulusofona.pt/" class="text-body-white">
+                        <p>
+                            <img src="{% static 'portefolio/imgs/deisi-logo.png' %}" alt="DEISI Logo" class="rounded-circle deisi-logo me-2">DEISI
+                        </p>
+                    </a>
+                    <p class="text-body-white">
+                        <small>Departamento Engenharia Informática e Sistemas de Informação</small>
+                    </p>
+                    <a href="https://www.ulusofona.pt/" class="text-body-white">
+                        <p>
+                            <img src="{% static 'portefolio/imgs/ulusofona.png' %}" alt="Ulusofona Logo" class="rounded deisi-logo me-2">
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</footer>
+
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+{% extends "tecweb/layout.html" %}
+{% load static %}
+{% load markdownify %}
+{% load crispy_forms_tags %}  
+
+
+{% block style %}
+
+textarea {width: 100%;}
+th {
+    text-align: center; 
+    vertical-align: top;
+}
+tr:nth-child(2n) {
+    background-color: whitesmoke;
+}
+thead{
+    background-color: lightgrey;
+}
+
+
+{% endblock %}
+
+
+{% block content %}
+<main class="container mt-5">
+    <h2 class="mb-4">Feedback sobre a Sessão: {{ inscricao.sessao.titulo }}</h2>
+
+    <p>O presente formulário serve exclusivamente para recolher a sua opinião relativamente à sessão em que acabou de participar na TecWeb. Não há respostas certas nem erradas, pretendemos apenas recolher o vosso feedback honesto sobre as sessões. As respostas são confidenciais e apenas vão servir para uma melhoria contínua na organização da TecWeb. Obrigado desde já pela vossa disponibilidade.</p>
+    <p><B>Deverá responder a este formulário para receber um certificado de participacão.</B></p>
+    
+    <form method="post" class="needs-validation">
+        {% csrf_token %}
+        
+        <p>
+            {{ form.consentimento }}
+            {{ form.consentimento.label }}
+        </p>
+        
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align:left; vertical-align:middle;">Escala Qualitativa</th>
+                    <th>1 <br> Muito Negativa</th>
+                    <th>2 <br> Algo Negativa</th>
+                    <th>3 <br> Neutra</th>
+                    <th>4 <br> Algo Positiva</th>
+                    <th>5 <br> Muito Positiva</th>
+        
+                </tr>
+            </thead>
+            <tbody>
+                
+                <!-- Outras perguntas com radio buttons -->
+                {% for field in form %}
+                    {% if field.widget_type == "radioselect" %}
+                        <tr>
+                            <td ><strong>{{ field.label }}</strong></td>
+                            {% for radio in field %}
+                                <td class="text-center">
+                                    {{ radio.tag }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% for field in form %}
+            {% if field.widget_type == "textarea" %}
+                <div>{{ field.label_tag }}</div>
+                <div>{{ field }}</div>
+            {% endif %}
+        {% endfor %}
+        
+        <!-- Botão de envio -->
+        <button type="submit" class="btn btn-primary">Submeter</button>
+    </form>
+</main>
+{% endblock %}

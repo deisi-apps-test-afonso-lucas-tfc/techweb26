@@ -1,0 +1,163 @@
+{% extends "portefolio/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class="container">
+    <div class="container px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="{% static 'portefolio/imgs/hero.JPG' %}" class="d-block mx-lg-auto img-fluid rounded" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Núcleo Estudantes de Informática</h1>
+                <p class="lead">O Núcleo de Estudantes de Informática é um produto do trabalho de alguns finalistas do ano
+                    passado, teve começo no Centro Universitário de Lisboa e estendeu-se também para uma equipa de alunos do Centro Universitário do Porto.</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    Este ano, estamos a desenvolver atividades extracurriculares do nosso departamento. Sendo a JobShop um
+                    evento de bastante interesse por parte da maioria dos alunos é o nosso principal projeto deste ano, a realização da 1ª edição da JobShop da
+                    área de Informática e Tecnologias de Informação.
+                </div>
+                <a href="{% url 'portefolio:team' %}" class="btn btn-secondary btn-lg mt-4">Conhece a equipa!</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="pb-2 border-bottom">A Nossa Missão</h2>
+
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative"
+                    style="background-image: url('https://nedi.pythonanywhere.com/static/portefolio/imgs/tecweb-2.JPG'); background-size: cover; background-position: center;">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white position-relative">
+                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Promover o convívio</h3>
+                        <ul class="d-flex list-unstyled mt-auto">
+                            <li class="d-flex align-items-center me-3">
+                                <small>Sessão Acolhimento</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative"
+                    style="background-image: url('https://nedi.pythonanywhere.com/static/portefolio/imgs/tecweb-1.JPG'); background-size: cover; background-position: center;">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white position-relative">
+                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Criar Oportunidades</h3>
+                        <ul class="d-flex list-unstyled mt-auto">
+                            <li class="d-flex align-items-center me-3">
+                                <small>Sessão Acolhimento</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative"
+                    style="background-image: url('https://nedi.pythonanywhere.com/static/portefolio/imgs/hub-1.jpg'); background-size: cover; background-position: center;">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white position-relative">
+                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Desenvolver os nossos alunos</h3>
+                        <ul class="d-flex list-unstyled mt-auto">
+                            <li class="d-flex align-items-center me-3">
+                                <small>TecWeb</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5 mb-5">
+        <h2 class="pb-2 border-bottom mb-4">Atividades</h2>
+        <div class="container marketing">
+            <div class="row">
+                <div class="col-lg-4">
+                    <img src="{% static 'portefolio/imgs/banner-jobshop .jpg' %}" class="d-block mx-lg-auto img-fluid rounded" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <h2 class="fw-normal mt-2">JobShop</h2>
+                    <p>1ª Edição da Feira de Emprego destinada aos alunos das áreas de Informática e Tecnologias.
+                    </p>
+                    <p><a class="btn btn-secondary" href="https://nedi.pythonanywhere.com/jobshop/">Saber Mais »</a></p>
+                </div>
+                <div class="col-lg-4">
+                    <img src="{% static 'portefolio/imgs/banner-tecweb.jpg' %}" class="d-block mx-lg-auto img-fluid rounded" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <h2 class="fw-normal mt-2">Tecweb</h2>
+                    <p>Semana Informática da faculdade Lusófona. Momento de aprendizagem e partilha.</p>
+                    <p><a class="btn btn-secondary" href="https://nedi.pythonanywhere.com/tecweb/about/">Saber Mais »</a></p>
+                </div>
+                <div class="col-lg-4">
+                    <img src="{% static 'portefolio/imgs/banner-cody.jpg' %}" class="d-block mx-lg-auto img-fluid rounded" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+                    <h2 class="fw-normal mt-2">Cody</h2>
+                    <p>Concurso anual de programação. Desafiando os alunos com um conjunto de problemas.</p>
+                    <p><a class="btn btn-secondary" href="">Saber Mais »</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5 mb-5">
+        <h2 class="pb-2 border-bottom">Cursos</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-3">
+            <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">LEI</h3>
+                <p>Licenciatura Engenharia Informática.</p>
+            </div>
+            </div>
+            <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">LIG</h3>
+                <p>Licenciatura Informática de Gestão.</p>
+            </div>
+            </div>
+            <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">LEIRT</h3>
+                <p>Licenciatura Engenharia Informática, Redes e Telecomunicações.</p>
+            </div>
+            </div>
+            <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">LCiD</h3>
+                <p>Licenciatura Ciência de Dados.</p>
+            </div>
+            </div>
+            <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">LCMA</h3>
+                <p>Licenciatura Computação e Matemática Aplicada.</p>
+            </div>
+            </div>
+            <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">MEISI</h3>
+                <p>Mestrado Engenharia Informática e Sistemas de Informação.</p>
+            </div>
+            </div>
+            <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">MCiD</h3>
+                <p>Mestrado Ciência de Dados.</p>
+            </div>
+            </div>
+            <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">MCiDASIG</h3>
+                <p>Mestrado Ciência de Dados Aplicada a Sistemas de Informação Geográfica.</p>
+            </div>
+            </div>
+            <div class="col d-flex align-items-start">
+                <div>
+                    <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">PhD Info</h3>
+                    <p>Doutoramento em Informática.</p>
+                </div>
+                </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

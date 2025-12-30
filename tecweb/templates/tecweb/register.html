@@ -1,0 +1,99 @@
+{% extends "tecweb/layout.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="container alert alert-warning text-center" role="alert" style="width: fit-content;">
+      <p class="fs-3"><strong>Atenção:</strong> O registo apenas está disponível para Alunos.</p>
+      <p>Caso seja um <strong>Orador</strong>, contacte o email <a href="mailto:nedi@ulusofona.pt">nedi@ulusofona.pt</a> indicando o email utilizado no login e o seu nome. Deve <strong>fazer logout</strong> e aguardar a confirmação do registo. Depois, poderá aceder à página das suas sessões e às presenças.</p> 
+      <a class="btn btn-secondary" href="{% url 'tecweb:logout' %}">
+        Logout
+      </a>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="text-center mb-4">
+          <h4>Completa o teu registo</h4>
+          <p>Insere os teus dados para finalizar o registo.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title text-center">Regista-te</h3>
+          </div>
+
+          <div class="card-body bg-light">
+            {% if erro %}
+              <div class="alert alert-danger" role="alert">
+                {{ erro }}
+              </div>
+            {% endif %}
+
+            <form method="POST">
+              {% csrf_token %}
+                <div class="mb-3">
+                    <label for="numero_aluno" class="form-label">Número de Aluno</label>
+                    <input type="text" name="numero_aluno" class="form-control" id="numero_aluno" placeholder="a2..." required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="nome_completo" class="form-label">Nome completo</label>
+                  <input type="text" name="nome_completo" class="form-control" id="nome_completo" placeholder="nome completo.." required>
+              </div>
+
+              <div class="mb-3">
+                    <label for="telemovel" class="form-label">Número de Telemóvel</label>
+                    <input type="number" name="telemovel" class="form-control" id="telemovel" placeholder="9XXXXXXXX" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="curso" class="form-label">Curso</label>
+                  <select name="curso" id="curso" class="form-select" required>
+                    <option value="" selected disabled>Seleciona o teu curso</option>
+                    <option value="LEI">LEI</option>
+                    <option value="LIG">LIG</option>
+                    <option value="LEIRT">LEIRT</option>
+                    <option value="LCD">LCD</option>
+                    <option value="LCMA">LCMA</option>
+                    <option value="MEISI">MEISI</option>
+                    <option value="MCD">MCD</option>
+                    <option value="DI">DI</option>
+                    <option value="outro">outro</option>
+                  </select> 
+                </div>
+
+                <div class="mb-3">
+                    <label for="ano" class="form-label">Ano</label>
+                    <select name="ano" id="ano" class="form-select" required>
+                      <option value="" selected disabled>Seleciona o teu ano</option>
+                      <option value="1">1º</option>
+                      <option value="2">2º</option>
+                      <option value="3">3º</option>
+                    </select>
+                </div>
+
+                <div class="mb-3 mt-4 form-check">
+                    <p class="fw-bold">Política de Privacidade e Partilha de Dados para o Evento</p>
+                    <p class="fw-lighter lh-1 fs-6">
+                        Ao submeter os seus dados, concorda que as informações fornecidas poderão ser partilhadas com as empresas participantes no evento.
+                        As suas informações pessoais serão tratadas de acordo com a política de privacidade das empresas participantes.
+                        Durante o evento, poderá ser disponibilizada uma aplicação móvel ou outras ferramentas de networking, nas quais o seu nome, universidade e curso, bem como fotos
+                        e perfis de redes sociais fornecidos por si, poderão ser visíveis para outros participantes. Caso deseje ativar o modo privado, que apenas mostra a sua
+                        universidade e curso, por favor entre em contacto com o organizador do evento.
+                    </p>
+                    <p class="fw-lighter lh-1 fs-6">
+                        A qualquer momento, poderá optar por não receber comunicações promocionais ou informativas, seguindo as instruções nos e-mails recebidos.
+                        A retirada do seu consentimento poderá ser efetuada a qualquer momento.
+                    </p>
+                    <input type="checkbox" class="ms-1 form-check-input" id="consentimento" required>
+                    <label class="ms-2 form-check-label" for="consentimento">Concordo</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Finalizar Registo</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

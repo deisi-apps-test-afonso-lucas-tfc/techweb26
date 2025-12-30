@@ -1,0 +1,42 @@
+{% extends "tecweb/layout.html" %}
+
+{% block content %}
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Alunos Inscritos por Sessão</h1>
+
+        <div class="accordion" id="sessoesAccordion">
+            {% for item in sessoes_com_inscritos %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ forloop.counter }}">
+                        <p><span class="fw-bold">{{ item.sessao.titulo_curto }} | </span>{{ item.sessao.vagas_disponiveis }} vagas disponíveis</p>
+                    </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#sessoesAccordion">
+                    <div class="accordion-body">
+
+                        <a href="{% url 'tecweb:sessao_inscritos' item.sessao.id %}" class="btn btn-primary mb-3">Ver Detalhes</a>
+                        {% if item.inscritos %}
+                        <a href="{% url 'tecweb:exportar_inscritos' item.sessao.id %}" class="btn btn-secondary mb-3">Exportar CSV</a>
+
+                        <ul class="list-group">
+                            {% for inscricao in item.inscritos %}
+                            <li class="list-group-item">
+                                <strong>{{ inscricao.aluno.user.get_full_name }}</strong> ({{ inscricao.aluno.numero_aluno }}) - <strong>{{ inscricao.aluno.user.email }}</strong> | {{ inscricao.aluno.ano_curricular }}º ano | {{ inscricao.aluno.curso }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        {% else %}
+                        <p class="text-muted">Sem alunos inscritos.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

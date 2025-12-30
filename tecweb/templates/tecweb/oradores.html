@@ -1,0 +1,89 @@
+{% extends "tecweb/layout.html" %}
+{% load static %}
+{% load markdownify %}
+
+{% block content %}
+<main class="container-fluid mt-5">
+    <div class="container px-3">
+        <div class="row flex-lg-row g-5 mt-4">
+
+            <h2 class="display-5 fw-bold text-body-emphasis lh-1" style="margin-bottom: 0 !important;">Oradores</h2>
+
+
+            <div class="container mt-4">
+
+                <div class="accordion" id="oradoresAccordion">
+                {% for orador in oradores %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#orador{{ forloop.counter }}" aria-expanded="false">
+                                {% if orador.foto %}
+                                    <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
+                                {% endif %}
+                                <strong>{{ orador.nome }}</strong>{% if orador.entidade %}, {{ orador.entidade }} {% endif %}
+                            </button>
+                        </h2>
+                        <div id="orador{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#oradoresAccordion">
+                            <div class="accordion-body">
+                                {% if orador.linkedin or orador.orcid %}
+                                    <p style="display:flex; flex-direction:center; align-items:center; justify-content: flex-start;">
+                                        {% if orador.linkedin %}
+                                            <b>Linkedin &nbsp;</b> <span><a href="{{ orador.linkedin }}" target="_blank">
+<svg height="25" viewBox="0 0 72 72" width="25" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z" fill="#007EBB"></path><path d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z" fill="#FFF"></path></g></svg></a>&nbsp; &nbsp; &nbsp;</span>
+                                        {% endif %}
+                                        {% if orador.orcid %}
+                                        <b>Orcid &nbsp;</b> <a href="https://orcid.org/{{ orador.orcid }}"><?xml version="1.0" encoding="UTF-8"?>
+                                            <svg width="25px" height="25px" viewBox="0 0 72 72" version="1.1"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <g id="hero" transform="translate(-924.000000, -72.000000)" fill-rule="nonzero">
+                                                        <g id="Group-4">
+                                                            <g id="vector_iD_icon" transform="translate(924.000000, 72.000000)">
+                                                                <path d="M72,36 C72,55.884375 55.884375,72 36,72 C16.115625,72 0,55.884375 0,36 C0,16.115625 16.115625,0 36,0 C55.884375,0 72,16.115625 72,36 Z" id="Path" fill="#A6CE39"></path>
+                                                                <g id="Group" transform="translate(18.868966, 12.910345)" fill="#FFFFFF">
+                                                                    <polygon id="Path" points="5.03734929 39.1250878 0.695429861 39.1250878 0.695429861 9.14431787 5.03734929 9.14431787 5.03734929 22.6930505 5.03734929 39.1250878"></polygon>
+                                                                    <path d="M11.409257,9.14431787 L23.1380784,9.14431787 C34.303014,9.14431787 39.2088191,17.0664074 39.2088191,24.1486995 C39.2088191,31.846843 33.1470485,39.1530811 23.1944669,39.1530811 L11.409257,39.1530811 L11.409257,9.14431787 Z M15.7511765,35.2620194 L22.6587756,35.2620194 C32.49858,35.2620194 34.7541226,27.8438084 34.7541226,24.1486995 C34.7541226,18.1301509 30.8915059,13.0353795 22.4332213,13.0353795 L15.7511765,13.0353795 L15.7511765,35.2620194 Z" id="Shape"></path>
+                                                                    <path d="M5.71401206,2.90182329 C5.71401206,4.441452 4.44526937,5.72914146 2.86638958,5.72914146 C1.28750978,5.72914146 0.0187670918,4.441452 0.0187670918,2.90182329 C0.0187670918,1.33420133 1.28750978,0.0745051096 2.86638958,0.0745051096 C4.44526937,0.0745051096 5.71401206,1.36219458 5.71401206,2.90182329 Z" id="Path"></path>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg></a>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+
+
+                                {% load group_filters %}
+                                {% if request.user|has_group:"manager" and orador.email %}
+                                <p><b>Email:</b> <a href="mailto:{{ orador.email }}">{{ orador.email }}</a></p>
+                                {% endif %}
+                                
+                                {% if orador.cv %}
+                                    <p><strong>Biografia:</strong> {{ orador.cv }}</p>
+                                {% endif %}
+                                
+
+
+                                <p style="font-weight: bold;">{% if orador.sessoes.all.count > 1 %}Sessões{% else %}Sessão{% endif %} em que participou:</p>
+
+                                {% for sessao in orador.sessoes.all %}
+                                <p>
+                                    <a href="{% url 'tecweb:detalhe_sessao' sessao.id %}" class="btn btn-outline-primary" style="margin:2px 0">{{ sessao }}</a>
+                                </p>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+{% endblock %}

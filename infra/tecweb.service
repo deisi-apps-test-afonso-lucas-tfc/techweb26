@@ -1,0 +1,18 @@
+[Unit]
+Description=tecweb gunicorn daemon
+Requires=tecweb.socket
+After=network.target
+
+[Service]
+Group=www-data
+User=arroz
+WorkingDirectory=/home/arroz/tecweb
+ExecStart=/home/arroz/tecweb/env/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --timeout 300 \
+          --bind unix:/run/tecweb.sock \
+          project.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

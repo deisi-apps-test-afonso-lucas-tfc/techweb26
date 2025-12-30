@@ -1,0 +1,70 @@
+{% extends "portefolio/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class="container">
+    <div class="container px-5 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-3">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="{% static 'portefolio/imgs/logo.png' %}" class="d-block mx-md-auto img-fluid rounded-circle cartao" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+            </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Núcleo Estudantes de Informática</h1>
+                <p class="lead">O NEDI - Núcleo de Estudantes de Informática é uma iniciativa recente, com apenas dois anos de existência,
+                    que visa dinamizar a nossa comunidade académica. Neste momento, o nosso foco é promover atividades que contribuam para
+                    o desenvolvimento dos alunos de informática, oferecendo oportunidades para a partilha de conhecimento e experiências.
+                    Estamos comprometidos em quebrar barreiras que podem levar ao isolamento dos membros da nossa comunidade, criando um
+                    espaço inclusivo e acolhedor.</p>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                Através de uma variedade de iniciativas e eventos, o NEDI promove um ambiente seguro e amigável, incentivando a interação
+                entre alunos de diferentes anos e ciclos de estudo. Esta interajuda é fundamental para fortalecer os laços entre os estudantes
+                e fomentar um espírito colaborativo. Acreditamos que, ao trabalhar juntos e partilhar conhecimentos, conseguimos construir uma
+                comunidade mais forte e coesa, onde todos se sintam valorizados e motivados a alcançar os seus objetivos académicos e profissionais.
+            </div>
+        </div>
+    </div>
+
+    <div class="px-5 row mb-5">
+        <h5 class="fs-2 border-bottom mb-3">Objetivos</h5>
+        <div class="col-md-4 mb-4">
+            <div class="card text-bg-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">Promover Atividades</h5>
+                    <ul class="card-text">
+                        <li>Realizar workshops que incentivem a interação.</li>
+                        <li>Organizar palestras sobre temas relevantes.</li>
+                        <li>Promover eventos sociais para fortalecer a comunidade.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-bg-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">Garantir Integração</h5>
+                    <ul class="card-text">
+                        <li>Criar um ambiente seguro e amigável.</li>
+                        <li>Facilitar a partilha de conhecimentos entre alunos.</li>
+                        <li>Incentivar a colaboração entre diferentes anos de estudo.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-bg-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">Diversidade</h5>
+                    <ul class="card-text">
+                        <li>Valorização da diversidade e inclusão.</li>
+                        <li>Assegurar que todos os alunos se sintam bem-vindos.</li>
+                        <li>Promover a representação de todos os estudantes.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "jobshop/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class="container-fluid mt-5">
+    <div class="container martian-mono-uniquifier px-5 mb-5">
+        <h1 class="display-5 fw-bold lh-1">JobShop 25</h1>
+        <p class="display-1 lh-1">12-16 maio</p>
+    </div>
+
+    <div class="container px-5 py-5 mt-5">
+        <div class="row flex-lg-row-reverse justify-content-center align-items-center g-5">
+            <div class="col-12 col-md-9 col-lg-6">
+                <img src="{% static 'jobshop/imgs/hub.png' %}" class="d-block mx-lg-auto img-fluid rounded" alt="Hub Image" width="700" height="500" loading="lazy">
+            </div>
+            <div class="col-12 col-md-3 col-lg-3 mt-3">
+                <h1 class="display-5 fw-bold color-primary lh-1 mb-3">ONDE ?</h1>
+                <p class="lead">Centro Universitário LISBOA</p>
+                <div class="d-grid gap-1 d-md-flex justify-content-md-start">
+                    DEISI HUB - Q3.2
+                </div>
+            </div>
+            <div class="col-12 col-md-9 col-lg-3">
+                <img src="{% static 'jobshop/imgs/all.png' %}" class="d-block mx-lg-auto img-fluid rounded" alt="hub-all img" width="700" height="500" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+            <h1 class="border-bottom mb-4">Agenda</h1>
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-5 gy-3 gx-3">
+                {% for agenda in agendas %}
+                    <div class="col">
+                        <div class="card shadow-md border-5 agenda">
+                            <img src="{{ agenda.foto.url }}" class="">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="pb-2 border-bottom">O Evento</h2>
+
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative"
+                    style="background-image: url('https://nedi.pythonanywhere.com/static/jobshop/imgs/hub.png'); background-size: cover; background-position: center;">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white position-relative">
+                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Feira de Empresas</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative"
+                    style="background-image: url('https://nedi.pythonanywhere.com/static/jobshop/imgs/w-2.jpg'); background-size: cover; background-position: center;">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white position-relative">
+                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Workshops</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg position-relative"
+                    style="background-image: url('https://nedi.pythonanywhere.com/static/jobshop/imgs/hub-1.jpg'); background-size: cover; background-position: center;">
+                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white position-relative">
+                        <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Networking</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 py-5 mb-5">
+        <h2 class="pb-2 border-bottom mb-4">Parceiros</h2>
+        <div class="container marketing">
+            <div class="row">
+                {% for parceiro in parceiros %}
+                    <div class="col-lg-3">
+                        <img src="{{ parceiro.foto.url }}" class="d-block mx-sm-auto img-fluid rounded-circle" alt="Bootstrap Themes" width="200" height="200" loading="lazy">
+                        <h2 class="fw-normal mt-2">{{ parceiro.nome }}</h2>
+                        <p>{{ parceiro.descricao }}
+                        </p>
+                        <p><a class="btn btn-secondary" href="{{ parceiro.site }}">Site »</a></p>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

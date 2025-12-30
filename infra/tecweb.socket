@@ -1,0 +1,8 @@
+[Unit]
+Description=tecweb socket
+
+[Socket]
+ListenStream=/run/tecweb.sock
+
+[Install]
+WantedBy=sockets.target

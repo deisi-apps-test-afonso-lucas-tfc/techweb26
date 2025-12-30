@@ -1,0 +1,259 @@
+{% extends "tecweb/layout.html" %}
+{% load static %}
+
+{% block style %}
+.event-title {
+padding: 4px 2px 0;
+text-align: center;
+font-weight: 500;
+word-wrap: break-word;
+overflow-wrap: break-word;
+overflow: hidden;
+hyphens: auto;
+}
+
+.event-time {
+text-align: center;
+font-size: 0.7em;
+padding-top: 5px;
+}
+
+.fc-event .fc-event-main {
+overflow: hidden;
+}
+
+.event-vagas {
+font-size: 0.6em;
+position: absolute;
+bottom: 0;
+right: 0;
+padding: 2px 5px;
+}
+
+.hidden {
+opacity: 0.2;
+}
+
+.fc-col-header-cell-cushion {
+pointer-events: none;
+text-decoration: none;
+color: inherit;
+cursor: default;
+}
+
+.fc-timegrid-slot {
+cursor: pointer;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+.fc-header-toolbar {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.fc-toolbar-title {
+margin-bottom: 10px;
+}
+
+.fc-header-toolbar .fc-right {
+display: none;
+}
+}
+
+/* DESKTOP */
+@media (min-width: 769px) {
+.fc-header-toolbar {
+display: flex;
+justify-content: space-between;
+}
+}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="display-5 fw-bold text-center mt-5">
+        Calendário de Sessões
+    </h1>
+
+    <div class="mb-4 d-flex flex-wrap justify-content-center">
+        {% for tipo in tipos %}
+        <span style="background-color:{{tipo.backgroundColor}}; color:white;
+                  margin:5px; padding:3px 10px; border-radius:5px;">
+            {{ tipo.nome }}
+        </span>
+        {% endfor %}
+    </div>
+
+    {% if num_sessoes %}
+    <p class="text-center mb-4">
+        <button id="toggleNaoInscrito" class="btn btn-outline-success">
+            Mostrar {{ num_sessoes }} sessões em que estou inscrito
+        </button>
+    </p>
+    {% endif %}
+
+    <div id="calendar"></div>
+
+    <div class="bg-gray-100 px-4 rounded-lg shadow-md text-center mt-3">
+        <p>
+            Em caso de dúvidas, contacte-nos:
+            <a href="mailto:nedi@ulusofona.pt">nedi@ulusofona.pt</a>
+        </p>
+    </div>
+</div>
+
+<!-- FullCalendar -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/locales-all.min.js"></script>
+
+<script>
+
+    let fixedDateSet = false; // flag global
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+
+            locale: 'pt',
+
+            initialView: window.matchMedia("(max-width: 768px)").matches
+                ? 'timeGridDay'
+                : 'timeGridWeek',
+
+            initialDate: '2026-03-09',
+
+            validRange: {
+                start: '2026-03-09',
+                end: '2026-03-14'
+            },
+
+            headerToolbar: {
+                left: '',
+                center: 'title',
+                right: 'timeGridDay,timeGrid,timeGridWeek'
+            },
+
+            nowIndicator: true,
+            slotDuration: '00:30:00',
+            slotMinTime: '09:00:00',
+            slotMaxTime: '22:00:00',
+            allDaySlot: false,
+            height: 'auto',
+
+            hiddenDays: [0, 6],
+
+            views: {
+                timeGrid: {
+                    duration: { days: 3 },
+                    buttonText: '3 dias'
+                },
+                timeGridWeek: {
+                    duration: { days: 5 },
+                    buttonText: '5 dias'
+                },
+                timeGridDay: {
+                    duration: { days: 1 },
+                    buttonText: '1 dia'
+                }
+            },
+
+            /* === SETAS APENAS NA VISTA DE 1 DIA === */
+
+
+            datesSet: function (info) {
+                if (info.view.type === 'timeGridDay') {
+                    // VISTA 1 DIA: mostra setas
+                    calendar.setOption('headerToolbar', {
+                        left: 'prev,next',
+                        center: 'title',
+                        right: 'timeGridDay,timeGrid,timeGridWeek'
+                    });
+                    fixedDateSet = false; // reseta flag
+                } else {
+                    // VISTA 3 DIAS OU 5 DIAS: remove setas
+                    calendar.setOption('headerToolbar', {
+                        left: '',
+                        center: 'title',
+                        right: 'timeGridDay,timeGrid,timeGridWeek'
+                    });
+
+                    // Força o primeiro dia da vista apenas 1 vez
+                    if (!fixedDateSet) {
+                        calendar.gotoDate('2026-03-09');
+                        fixedDateSet = true;
+                    }
+                }
+            },
+
+            eventContent: function (arg) {
+                var c = document.createElement('div');
+                c.style.position = 'relative';
+                c.style.height = '100%';
+
+                if (!arg.event.extendedProps.inscrito) {
+                    c.classList.add('naoInscrito');
+                }
+
+                c.innerHTML = `
+                <div class="event-title">${arg.event.title}</div>
+                <div class="event-time">${arg.event.extendedProps.sala}</div>
+                <div class="event-vagas">
+                    ${arg.event.extendedProps.alunos_inscritos}
+                    /
+                    ${arg.event.extendedProps.vagas_totais}
+                </div>
+            `;
+
+                return { domNodes: [c] };
+            },
+
+            events: function (fetchInfo, success, failure) {
+                fetch("{% url 'tecweb:calendario_sessoes' %}")
+                    .then(r => r.json())
+                    .then(data => success(data))
+                    .catch(err => failure(err));
+            },
+
+            eventClick: function (info) {
+                window.location.href = info.event.url;
+            },
+
+            dateClick: function (info) {
+                calendar.changeView('timeGridDay', info.dateStr);
+            }
+        });
+
+        /* RESPONSIVO */
+        window.addEventListener('resize', function () {
+            if (window.matchMedia("(max-width: 768px)").matches) {
+                calendar.changeView('timeGridDay');
+            } else if (window.matchMedia("(max-width: 1300px)").matches) {
+                calendar.changeView('timeGrid');
+            } else {
+                calendar.changeView('timeGridWeek');
+            }
+        });
+
+        /* TOGGLE INSCRIÇÕES */
+        var btn = document.getElementById('toggleNaoInscrito');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.naoInscrito')
+                    .forEach(el => el.classList.toggle('hidden'));
+
+                btn.textContent =
+                    btn.textContent.includes('todas')
+                        ? 'Mostrar {{ num_sessoes }} sessões em que estou inscrito'
+                        : 'Mostrar todas as Sessões';
+            });
+        }
+
+        calendar.render();
+    });
+</script>
+{% endblock %}

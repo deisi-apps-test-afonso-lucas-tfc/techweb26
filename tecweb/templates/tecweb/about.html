@@ -1,0 +1,82 @@
+{% extends "tecweb/layout.html" %}
+{% load static %}
+
+{% block content %}
+    <main class="container-fluid mt-5">
+        <div class="container px-3">
+            <div class="row flex-lg-row-reverse align-items-center justify-content-center g-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="{% static 'tecweb/imgs/tecweb_25.jpg' %}" class="d-block mx-lg-auto img-fluid rounded" alt="Banner Tecweb" style="max-height: 300px; width:auto;" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3 mt-5">TecWeb 26</h1>
+                    <p>
+                        A TecWeb é um evento anual organizado pelo <strong>DEISI</strong> - Departamento de Engenharia Informática e Sistemas de Informação, da <strong>Universidade Lusófona</strong>. Esta é a <strong>21ª edição</strong>, com a duração de uma semana, de <strong>9 a 13 de março</strong> de 2026, nos Centros Universitários da Universidade Lusófona em Lisboa e Porto. O evento integra múltiplas atividades empresariais e universitárias voltadas para a comunidade estudantil.
+                    </p>
+
+                    <ul>
+
+                        <li><strong>{{n_entidades}} empresas</strong> envolvidas em academias e talks.</li>
+                        <li><strong>{{n_oradores}}  oradores e formadores</strong>, de empresas, docentes e alunos.</li>
+                        <li><strong>{{n_sessoes}}  sessões</strong>:
+<ul> 
+			{% for tipo,n in tipos.items %}
+			 <li> {{n}} {{tipo}}.</li>
+			{% endfor %}
+</ul>
+			</li>
+                        <li><strong>{{horas_de_sessoes}}  horas</strong> de sessões numa semana.</li>
+                        <li><strong>{{n_alunos}} alunos</strong> inscritos, cada um frequentando ~{{horas_por_aluno}} horas de formações/talks.</li>
+                    </ul>
+                    
+                </div>
+            </div>
+
+
+
+		<div style="margin-top: 40px; display:flex; flex-direction:row; gap:20px; justify-content:flex-start;">
+
+			<a href="{% url 'tecweb:sessoes' %}" class="btn btn-success mb-3" style="font-weight:500; font-size:16px;">Sessões</a>
+			<a href="{% url 'tecweb:calendario' %}" class="btn btn-success mb-3" style="font-weight:500; font-size:16px;">Calendário</a>
+			<a href="{% url 'tecweb:empresas' %}" class="btn btn-success mb-3" style="font-weight:500; font-size:16px;">Empresas</a>
+			<a href="{% url 'tecweb:oradores' %}" class="btn btn-success mb-3" style="font-weight:500; font-size:16px;">Oradores</a>
+			<a href="{% url 'tecweb:fotos' %}" class="btn btn-success mb-3" style="font-weight:500; font-size:16px;">Fotografias</a>
+		</div>
+
+
+            <div class="container">
+                 <h3 class="mb-3 mt-5 border-bottom fs-2 fw-bold">Programação e Atividades</h3>
+
+
+                <ul>
+                    <li>Nas <strong>Academias de Empresas</strong> existem sessões empresariais e formações tecnológicas de parceiros líderes de mercado empresarial de TI. Estas sessões têm lugar na Lusófona e nas empresas participantes.</li>
+                    <li>As <strong>Academias DEISI</strong> integra formações sobre áreas de vanguarda, e organizados por docentes do DEISI, assim como o concurso de programação Cody.</li>
+                    <li>As <strong>DEISI Talks</strong> integram palestras por oradores de várias empresas, da academia, alunos e ex-alunos, sobre temas inovadores e disruptivos.</li>
+                </ul>
+
+                <h3 class="mb-3 mt-5 border-bottom fs-2 fw-bold">Oportunidades de Networking</h3>
+                <p>
+                    O evento reúne alunos, docentes e especialistas para promover a capacitação tecnológica e networking de alto nível em tecnologia da informação. É uma oportunidade imperdível para estudantes, alumnis, futuros estudantes e membros da comunidade académica se atualizarem sobre as mais recentes tendências e práticas do setor.
+                </p>
+                <p>
+                    Uma das características mais destacadas do evento é a presença de parceiros de negócios de renome, oferecendo aos participantes a oportunidade de se envolver em sessões de negócios e formações tecnológicas do mercado, o que pode abrir portas para futuras oportunidades de colaboração e desenvolvimento profissional.
+                </p>
+
+                <!-- <div class="text-center">
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/CeLuHuU-5Lk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div> -->
+            </div>
+
+            <div class="container mb-5">
+                <h3 class="mb-3 mt-5 border-bottom fs-2 fw-bold">Entidades participantes</h3>
+                <div class="d-flex flex-row flex-wrap justify-content-center align-items-center gap-3">
+                {% for entidade in entidades %}
+                    <a href="{{ entidade.link }}">
+                    <img src="{{ entidade.logotipo.url }}" class="d-block mx-lg-auto img-fluid rounded" alt="{{ entidade.nome }}" style="max-width: 100px; width:auto;" loading="lazy">
+                    </a>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

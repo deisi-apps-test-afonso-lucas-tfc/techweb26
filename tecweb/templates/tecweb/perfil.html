@@ -1,0 +1,206 @@
+{% extends "tecweb/layout.html" %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <div class="container py-5 mt-5 mb-5">
+            <div class="card mx-auto" style="max-width: 400px;">
+                <div class="card-body text-center">
+                    <img src="{{ profile_picture_url }}" alt="Profile Picture" class="rounded-circle mb-3" width="150" height="150">
+                    <h2 class="card-title">{{ user.first_name }} {{ user.last_name }}</h2>
+                    <p class="card-text text-muted">{{ user.email }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="container mt-4 mb-5">
+        <h1 class="text-center mb-2">Calendário Pessoal</h1>
+
+        <div class="mb-4" style="text-align:center;">
+            {% for tipo in tipos %}
+                <span style="background-color:{{tipo.backgroundColor}}; color:white; padding: 3px 6px; border-radius: 5px;">{{tipo.nome}}</span>
+            {% endfor %}
+        </div>
+
+        <div id="calendar"></div>
+    </div>
+
+    {% if inscricoes %}
+        <h1 class="text-center">Sessões Inscrito</h1>
+        <p class="lead text-center"><strong>Está inscrito em {{ num_sessoes }} sessões</strong></p>
+
+        <div style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; align-items:stretch; gap:20px; padding:10px;">
+            {% for inscricao in inscricoes %}
+            <div class="cartao"  onclick="window.location.href='{% url 'tecweb:detalhe_sessao' inscricao.sessao.id %}'">
+                <h4 class="card-title" style="text-align:center; font-weight:bold;">
+                    {{ inscricao.sessao.titulo }}
+                </h4>
+
+                {% if inscricao.sessao.foto_capa %}
+                <div style="margin-top:auto; display:flex; flex-direction:row; justify-content:center;">
+                    <img src="{{ inscricao.sessao.foto_capa.url }}" class="d-block mx-lg-auto img-fluid rounded" alt="{{ inscricao.sessao.titulo }}" style="max-height: 150px; max-width:200px;" loading="lazy">
+                </div>
+                {% endif %}
+                <div style="margin-top: auto; text-align: right;">
+                {% if inscricao.sessao.oradores.exists %}
+                    {% for orador in inscricao.sessao.oradores.all %}
+                        {% if orador.foto %}
+                            <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
+                        {% endif %}
+
+                    {% endfor %}
+                {% endif %}
+                </div>
+                <div  style="margin: 10px 0; display:flex; flex-direction:row; justify-content:flex-end; gap:15px;">
+                    <span>
+                    <i class="fas fa-calendar"></i>
+                    {% for horario in inscricao.sessao.horarios.all %}
+                        {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M" }}
+                    </span>
+                    <span><i class="fas fa-clock"></i> {{ horario.inicio|date:"H:i" }}-{{ horario.fim|date:"H:i" }}{% endif %}
+                    {% endfor %}
+                    </span>
+
+                    {% if sessao.sala %}
+                    <span><i class="fas fa-door-open"></i> {{ sessao.sala }}</span>
+                    {% endif %}
+                    <br>
+
+                </div>
+                <div style="text-align: right;">
+                    <a href="{% url 'tecweb:desinscrever_sessao' inscricao.sessao.id %}" class="btn btn-outline-danger btn-sm">Desinscrever</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    <!-- FullCalendar v5 -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.5/locales-all.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: window.matchMedia("(max-width: 768px)").matches ? 'timeGridDay' : 'timeGridWeek',  // Modo mobile ou desktop
+            locale: 'pt',
+            headerToolbar: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'timeGridDay,timeGrid,timeGridWeek'
+            },
+            nowIndicator: true,
+            slotDuration: '00:30:00',
+            slotMinTime: "09:00:00",
+            slotMaxTime: "22:00:00",
+            allDaySlot: false,
+            height: 'auto',
+
+            views: {
+                timeGrid: {
+                    duration: { days: 3 },
+                    buttonText: '3 dias'
+                },
+                timeGridWeek: {
+                    duration: { days: 5 },
+                    buttonText: '5 dias'
+                },
+                timeGridDay: {
+                    duration: { days: 1 },
+                    buttonText: '1 dia'
+                }
+            },
+
+            validRange: {
+                start: '2026-03-9',
+                end: '2026-03-13'
+            },
+            hiddenDays: [0, 6],
+            eventOverlap: true,
+            slotEventOverlap: false,
+
+            eventContent: function(arg) {
+                var timeText = arg.timeText;
+                var title = arg.event.title;
+                var vagas = arg.event.extendedProps.vagas_disponiveis;
+                var inscritos = arg.event.extendedProps.alunos_inscritos;
+                var inscrito = arg.event.extendedProps.inscrito;
+
+                var container = document.createElement('div');
+                container.style.position = 'relative';
+                container.style.height = '100%';
+
+                if (!inscrito) {
+                    container.classList.add('naoInscrito');
+                }
+
+                var titleEl = document.createElement('div');
+                titleEl.classList.add('event-title');
+                titleEl.innerText = title;
+
+                var timeEl = document.createElement('div');
+                timeEl.classList.add('event-time');
+                timeEl.innerText = timeText;
+
+                var vagasEl = document.createElement('div');
+                vagasEl.classList.add('event-vagas');
+                vagasEl.innerText = ``;
+
+                container.appendChild(titleEl);
+            //    container.appendChild(timeEl);
+                container.appendChild(vagasEl);
+
+                return { domNodes: [container] };
+            },
+
+            events: function(fetchInfo, successCallback, failureCallback) {
+                fetch("{% url 'tecweb:perfil_sessoes' %}")
+                .then(response => response.json())
+                .then(events => successCallback(events))
+                .catch(error => failureCallback(error));
+            },
+
+            eventClick: function(info) {
+                window.location.href = info.event.url;
+            },
+
+            dateClick: function(info) {
+                calendar.changeView('timeGridDay', info.dateStr);
+            },
+
+        });
+
+        // Atualiza a visualização do calendário dependendo do tamanho da tela
+        window.addEventListener('resize', function() {
+            if (window.matchMedia("(max-width: 768px)").matches) {
+                calendar.changeView('timeGridDay');  // Exibe o modo de 1 dia para mobile
+            } else if (window.matchMedia("(max-width: 1300px)").matches) {
+                calendar.changeView('timeGrid');  // Exibe o modo de 1 dia para mobile
+            } else {
+                calendar.changeView('timeGridWeek');  // Exibe o modo de 5 dias para desktop
+            }
+        });
+
+        calendar.render();
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(() => {
+                document.querySelectorAll(".fc-col-header-cell-cushion").forEach(cell => {
+                    cell.addEventListener("click", function(event) {
+                        let dateStr = this.getAttribute("data-date");
+                        if (dateStr) {
+                            calendar.changeView("timeGridDay", dateStr);
+                        }
+                    });
+                });
+            }, 500);
+        });
+    </script>
+{% endblock %}

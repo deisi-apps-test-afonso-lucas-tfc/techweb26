@@ -1,0 +1,49 @@
+.martian-mono-uniquifier {
+    color: #1c2f4d;
+    font-family: "Martian Mono", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Martian Mono", serif;
+}
+
+.martian-mono-uniquifier h1 {
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 1.1;
+}
+
+.color-primary {color: #1c2f4d;}
+
+.hub {
+    width: 300px;
+    height: auto;
+}
+
+.agenda{
+    border-color: #1c2f4d;
+}
+
+@media (min-width: 576px) {  /* sm */
+    .martian-mono-uniquifier h1{
+        font-size: 70px;
+    }
+}
+
+@media (min-width: 768px) {  /* md */
+    .martian-mono-uniquifier h1{
+        font-size: 100px;
+    }
+}
+
+@media (min-width: 992px) {  /* lg */
+    .martian-mono-uniquifier h1{
+        font-size: 200px;
+    }
+}
