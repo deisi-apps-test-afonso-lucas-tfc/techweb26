@@ -57,8 +57,13 @@ body {background:whitesmoke;}
             <div>
                 Vagas: {{ sessao.vagas_disponiveis }}/{{ sessao.vagas_totais }}
                 {% if not sessao.terminou and sessao.vagas_disponiveis or sessao.inscricao_alargada %}
-                <a href="{% url 'tecweb:inscrever_sessao' sessao.id %}" class="btn btn-success btn-sm"
-                    style="float:right;">Inscrever</a>
+                <a 
+                    href="{% url 'tecweb:inscrever_sessao' sessao.id %}" 
+                    class="btn btn-success btn-sm" 
+                    style="float:right; color: #0d6efd; border: 1px solid #0d6efd; background: white;"
+                >
+                    Inscrever
+                </a>
                 {% endif %}
             </div>
             {% else %}
