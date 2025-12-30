@@ -6,6 +6,9 @@ INITIAL_DB="/initial_db.sqlite3"
 
 echo "🚀 Starting Django container..."
 
+# Garantir pasta /data
+mkdir -p /data
+
 # Se não existir BD no volume, copiar a inicial
 if [ ! -f "$DB_PATH" ]; then
   echo "📦 No production database found."
