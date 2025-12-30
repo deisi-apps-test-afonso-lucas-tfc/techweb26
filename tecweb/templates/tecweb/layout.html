@@ -13,7 +13,9 @@
 
 	<link rel="stylesheet" type="text/css" href="/static/tecweb/style.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<link rel="icon" type="image/png" href="https://nedi.pythonanywhere.com/static/tecweb/imgs/tw-logo.jpg">
+	
+	{% load static %}
+	<link rel="icon" type="image/png" href="{% static 'tecweb/imgs/tw-logo.jpg' %}">
 
 	<style>
 		@media (max-width: 750px) {
