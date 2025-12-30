@@ -12,14 +12,6 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copiar código
 COPY . .
 
-
-# Base de dados inicial (template)
-# ⚠️ Só é usada se não existir BD no volume
-COPY initial_data/db.sqlite3 /initial_db.sqlite3
-
-# Pasta onde o volume será montado
-RUN mkdir -p /data
-
 # Recolher ficheiros estáticos
 RUN python manage.py collectstatic --noinput
 

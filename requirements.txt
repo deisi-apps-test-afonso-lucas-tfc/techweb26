@@ -20,3 +20,6 @@ psycopg2-binary==2.9.10
 bleach==6.2.0
 Markdown==3.7
 tinycss2==1.4.0
+
+python-dotenv>=1.0.0,<2.0.0
+
