@@ -45,6 +45,7 @@ class Orador(models.Model):
         group, _ = Group.objects.get_or_create(name='orador')
         if not self.user.groups.filter(name='orador').exists():
             self.user.groups.add(group)
+            self.user.is_staff = True  # para aceder a admin
             self.user.save()
 
 
