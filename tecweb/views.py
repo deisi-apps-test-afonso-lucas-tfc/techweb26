@@ -75,9 +75,26 @@ def fotos_view(request):
 
 
 def oradores_view(request):
-
+    
+    oradores = Orador.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
     context = {}
-    context['oradores'] = Orador.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+    
+    lista = []
+    
+    for orador in oradores:
+        sessoes = (
+            SessaoEvento.objects
+            .filter(oradores=orador, ano=ano_atual)
+            .distinct()
+            .order_by('titulo') 
+        )
+    
+        lista.append({
+            'orador': orador,
+            'sessoes': sessoes,
+        })
+
+    context['oradores'] = lista
 
     superuser=None
     if request.user.is_authenticated:
