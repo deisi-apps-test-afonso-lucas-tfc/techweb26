@@ -617,8 +617,8 @@ def login_orador(request):
           
         send_mail(
             subject='TecWeb: Autenticação', 
-            message=f'Caro {orador.nome}, clique no link https://tecweb.ulusofona.pt/autentica-orador/?email={orador.email}&token={orador.token} para entrar na aplicação da TecWeb.</p><p>Este é um email automático, não responda.', 
-            html_message=f'<p>Caro {orador.nome},</p><p>clique no <a href="https://tecweb.ulusofona.pt/autentica-orador/?email={orador.email}&token={orador.token}">link</a> para entrar na aplicação da TecWeb.</p><p>Este é um email automático, não responda.</p>',
+            message=f'Caro {orador.nome}, clique no link https://tecweb26.pw.deisi.ulusofona.pt/autentica-orador/?email={orador.email}&token={orador.token} para entrar na aplicação da TecWeb.</p><p>Este é um email automático, não responda.', 
+            html_message=f'<p>Caro {orador.nome},</p><p>clique no <a href="https://tecweb26.pw.deisi.ulusofona.pt/autentica-orador/?email={orador.email}&token={orador.token}">link</a> para entrar na aplicação da TecWeb.</p><p>Este é um email automático, não responda.</p>',
             from_email='deisi.ulusofona@gmail.com',
             recipient_list=[email]
         )
