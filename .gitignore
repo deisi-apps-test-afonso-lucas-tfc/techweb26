@@ -5,6 +5,8 @@
 __pycache__
 /staticfiles/
 
+*.sqlite3
+
 
 # Backup files # 
 *.bak 
