@@ -166,7 +166,7 @@
                 <p>  <span>
                 <i class="fas fa-calendar"></i>
                 {% for horario in sessao.horarios.all %}
-                    {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M" }}
+                    {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M/Y" }}
                 </span>
                 <span> &nbsp; <i class="fas fa-clock"></i> {{ horario.inicio|date:"H:i" }}-{{ horario.fim|date:"H:i" }}{% endif %}
                 {% endfor %}

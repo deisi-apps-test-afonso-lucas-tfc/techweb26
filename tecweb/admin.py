@@ -9,9 +9,10 @@ from .models import Entidade, Inquerito, Fotografia, Ficheiro
 from django import forms
 from django.utils.html import format_html
 
-class HorarioInline(admin.TabularInline):
+class HorarioInline(admin.TabularInline):  # ou admin.StackedInline
     model = Horario
-    extra = 1
+    extra = 1          # quantos horários vazios aparecem
+    min_num = 0
 
 class FotografiaInline(admin.TabularInline):
     model = Fotografia
@@ -32,6 +33,8 @@ class FicheiroInline(admin.TabularInline):
     fields = ('nome', 'ficheiro')
     
 
+
+
 class SessaoEventoAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'ano')
     ordering = ('-ano', 'titulo')
@@ -50,11 +53,37 @@ class SessaoEventoAdmin(admin.ModelAdmin):
         except Orador.DoesNotExist:
             return qs.none()  # Users sem orador não veem nada
 
-    
+from .models import Horario
+from .forms import HorarioForm
+
 class HorarioAdmin(admin.ModelAdmin):
-    list_display = ('inicio', 'fim')
-    ordering = ('inicio','fim')
-    search_fields = ('inicio','fim')
+    list_display = ('inicio', 'fim', 'sessao')
+    ordering = ('-inicio',)
+
+    def has_module_permission(self, request):
+        """
+        Controla se o modelo aparece no menu do admin
+        """
+        if request.user.is_superuser:
+            return True
+
+        # Oradores NÃO veem Horário no menu
+        if request.user.groups.filter(name='orador').exists():
+            return False
+
+        return True
+    
+    form = HorarioForm
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        # Passa o request para o form
+        class FormWithRequest(form):
+            def __init__(self2, *args, **kwargs2):
+                kwargs2['request'] = request
+                super().__init__(*args, **kwargs2)
+        return FormWithRequest
+    
 
 class AlunoAdmin(admin.ModelAdmin):
     list_display = ('nome_completo', 'numero_aluno', 'curso')

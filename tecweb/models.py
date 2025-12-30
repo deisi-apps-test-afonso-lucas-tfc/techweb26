@@ -125,6 +125,7 @@ class Horario(models.Model):
         else:
             return self.inicio.strftime("%Y-%m-%d %H:%M")
 
+
 class Aluno(models.Model):
     ANOS_CURRICULARES = [
         (1, "1º Ano"),

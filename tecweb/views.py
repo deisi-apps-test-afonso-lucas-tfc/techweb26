@@ -245,12 +245,12 @@ def detalhe_sessao(request, id):
     
     
     feedbacks_numericos = {
-    "Interesse da temática abordada": round(sum(i.interesse for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
-    "Qualidade dos conteúdos apresentados": round(sum(i.qualidade for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
-    "Relevância para o curso que frequenta": round(sum(i.relevancia for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
-    "Qualidade Técnica do Formador/Orador": round(sum(i.formador for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
-    "Qualidade da apresentação de conteúdos/exposição das ideias do formador/orador": round(sum(i.conteudos for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
-    "Satisfação geral sobre a sessão": round(sum(i.satisfacao for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
+    "Interesse da temática abordada": '-' if not n_inqueritos else round(sum(i.interesse for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
+    "Qualidade dos conteúdos apresentados": '-' if not n_inqueritos else round(sum(i.qualidade for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
+    "Relevância para o curso que frequenta": '-' if not n_inqueritos else round(sum(i.relevancia for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
+    "Qualidade Técnica do Formador/Orador": '-' if not n_inqueritos else round(sum(i.formador for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
+    "Qualidade da apresentação de conteúdos/exposição das ideias do formador/orador": '-' if not n_inqueritos else round(sum(i.conteudos for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
+    "Satisfação geral sobre a sessão": '-' if not n_inqueritos else round(sum(i.satisfacao for i in Inquerito.objects.filter(inscricao__sessao=sessao)) / n_inqueritos, 1),
 }
 
     

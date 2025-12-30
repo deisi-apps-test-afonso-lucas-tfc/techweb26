@@ -1,3 +1,30 @@
+# comentei no menu fotografias! ativar no final
+
+# Instruções
+
+1. Criar DB ou obter cópia em:
+
+https://drive.google.com/file/d/1YvqIKyMOTuPlMgosxf6-H0jJOUOwL-1a/view?usp=sharing
+
+2. 
+
+```bash
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+
+3. To Do: integrar presenças na app. 
+
+- Gerar QrCode para cada sessao. 
+- criar botao q ativa modal com QRCode
+- com telefone, aluno é encaminhado a pagina para se autenticar com conta Google
+- no dashboard aparece nome e foto dos autenticados
+- eventualmente associar um numero que vai mudando (como Martim)
+
+
+
 # django-empty
 
 Este repositório serve como um template base para projetos Django, permitindo iniciar rapidamente um novo projeto com uma estrutura pré-configurada.
