@@ -78,8 +78,9 @@ def oradores_view(request):
     
     oradores = Orador.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
     context = {}
-    
+
     lista = []
+    
     
     for orador in oradores:
         sessoes = (
