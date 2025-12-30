@@ -1,7 +1,5 @@
 {% extends "tecweb/layout.html" %}
 
-
-
 {% block style %}
 body {background:whitesmoke;}
 {% endblock %}
@@ -10,193 +8,219 @@ body {background:whitesmoke;}
 {% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+<div class="container mt-4">
 
 
     {% if sessoes_orador %}
-        <h2  class="display-5 fw-bold text-body-emphasis lh-1 text-center mb-3" style="margin-top:5ch !important;">Sessões em que é Orador</h2>
+    <h2 class="display-5 fw-bold text-body-emphasis lh-1 text-center mb-3" style="margin-top:5ch !important;">Sessões em
+        que é Orador</h2>
 
-        <div style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; align-items:stretch; gap:20px;">
-            {% for sessao in sessoes_orador %}
-            <div class="cartao"  onclick="window.location.href='{% url 'tecweb:detalhe_sessao' sessao.id %}'">
-                <h4 class="card-title" style="font-weight:bold;">
-                    {{ sessao.titulo }}
-                </h4>
-
-                {% if sessao.foto_capa %}
-                <div style="margin-top:auto; display:flex; flex-direction:row; justify-content:center;">
-                    <img src="{{ sessao.foto_capa.url }}" class="d-block mx-lg-auto img-fluid rounded" alt="{{ sessao.titulo }}" style="max-height: 150px; max-width:200px;" loading="lazy">
-                </div>
-                {% endif %}
-                <div style="margin-top: auto">
-                {% if sessao.oradores.exists %}
-                    {% for orador in sessao.oradores.all %}
-                        {% if orador.foto %}
-                            <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
-                        {% endif %}
-
-                    {% endfor %}
-                {% endif %}
-                </div>
-                <div  style="margin: 10px 0; display:flex; flex-direction:row; justify-content:flex-start; gap:15px;">
-                    <span>
-                    <i class="fas fa-calendar"></i>
-                    {% for horario in sessao.horarios.all %}
-                        {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M" }}
-                    </span>
-                    <span><i class="fas fa-clock"></i> {{ horario.inicio|date:"H:i" }}-{{ horario.fim|date:"H:i" }}{% endif %}
-                    {% endfor %}
-                    </span>
-                    {% if sessao.sala %}
-                    <span><i class="fas fa-door-open"></i> {{ sessao.sala }}</span>
-                    {% endif %}
-                </div>
-
-                {% if not orador %}
-                    <div>
-                        Vagas: {{ sessao.vagas_disponiveis }}/{{ sessao.vagas_totais }}
-                        {% if not sessao.terminou and sessao.vagas_disponiveis or  sessao.inscricao_alargada %}
-                            <a href="{% url 'tecweb:inscrever_sessao' sessao.id %}" class="btn btn-success btn-sm" style="float:right;">Inscrever</a>
-                        {% endif %}
-                    </div>
-                {% else %}
-                    <div>
-                        <a href="{% url 'tecweb:sessao_inscritos' sessao.id %}" class="btn btn-info btn-sm" style="float:right;">Ver Inscrições</a>
-                    </div>
-                {% endif %}
-            </div>
-            {% endfor %}
-        </div>
-
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top:2ch;">
-
-            <p class="lead text-center"><a style="font-size: 1.25rem; font-weight: 300;" href="https://classping.org/courses/78/school-classes" class="btn btn-success btn-lg btn-block" style="float:right;" target="_blank">Registo de Presencas</a></p>
-            <details style="font-weight: 300; margin-bottom:2ch;">
-                <summary>
-                    Gira as inscrições e presenças das suas sessões.
-                </summary>
-            <div style="background: white; padding:10px; border-radius:10px;">
-                <b>Passos para fazer o registo de presenças</b>
-                <ol style="margin-top: 0.5rem;">
-                <li>Autentique-se com o seu email <strong>{{ orador.email }}</strong>.</li>
-                <li>Em <em>Courses &gt; TecWeb</em>, procure a sua sessão.</li>
-                <li>Clique em <em>Sessions</em>.</li>
-                <li>Clique em <em>Start new session</em>.</li>
-                <li>Projete no ecrã o QR Code para que os alunos registem a sua presença.</li>
-                <li>Feche a sessão.</li>
-                <li>As presenças ficarão armazenadas e poderá consultá-las ou alterá-las sempre que quiser.</li>
-                </ol>
-            </div>
-            </details>
-        </div>  
-    {% endif %}
-
-    {% if sessoes_inscrito %}
-        <h2  class="display-5 fw-bold text-body-emphasis lh-1 text-center mb-3"   style="margin-top:5ch !important;">Sessões em que está Inscrito</h2>
-        <p class="lead text-center"><strong>Está inscrito em {{ num_sessoes }} sessões</strong></p>
-
-        <div style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; align-items:stretch; gap:20px; padding:10px;">
-            {% for inscricao in sessoes_inscrito %}
-            <div class="cartao"  onclick="window.location.href='{% url 'tecweb:detalhe_sessao' inscricao.sessao.id %}'">
-                <h4 class="card-title" style="text-align:center; font-weight:bold;">
-                    {{ inscricao.sessao.titulo }}
-                </h4>
-
-                {% if inscricao.sessao.foto_capa %}
-                <div style="margin-top:auto; display:flex; flex-direction:row; justify-content:center;">
-                    <img src="{{ inscricao.sessao.foto_capa.url }}" class="d-block mx-lg-auto img-fluid rounded" alt="{{ inscricao.sessao.titulo }}" style="max-height: 150px; max-width:200px;" loading="lazy">
-                </div>
-                {% endif %}
-                <div style="margin-top: auto; text-align: right;">
-                {% if inscricao.sessao.oradores.exists %}
-                    {% for orador in inscricao.sessao.oradores.all %}
-                        {% if orador.foto %}
-                            <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
-                        {% endif %}
-
-                    {% endfor %}
-                {% endif %}
-                </div>
-                <div  style="margin: 10px 0; display:flex; flex-direction:row; justify-content:flex-end; gap:15px;">
-                    <span>
-                    <i class="fas fa-calendar"></i>
-                    {% for horario in inscricao.sessao.horarios.all %}
-                        {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M" }}
-                    </span>
-                    <span><i class="fas fa-clock"></i> {{ horario.inicio|date:"H:i" }}-{{ horario.fim|date:"H:i" }}{% endif %}
-                    {% endfor %}
-                    </span>
-
-                    {% if sessao.sala %}
-                    <span><i class="fas fa-door-open"></i> {{ sessao.sala }}</span>
-                    {% endif %}
-                    <br>
-
-                </div>
-                {% if not inscricao.sessao.terminou %}
-                    <div style="text-align: right;">
-                        <a href="{% url 'tecweb:desinscrever_sessao' inscricao.sessao.id %}" class="btn btn-outline-danger btn-sm">Desinscrever-me</a>
-                    </div>
-                {% endif %}
-                {% if inscricao.sessao.terminou and not inscricao.inquerito %}       
-                        <a href="{% url 'tecweb:inquerito' inscricao.id %}" class="btn btn-success mx-2">Inquérito</a>
-                    <p style="text-align:center; margin-top:0; font-size:0.85rem">Responda para receber o certificado.</p>
-                {% endif %}
-                {% if inscricao.sessao.terminou and inscricao.inquerito %}
-                    {% if inscricao.certificado %}
-                    <a href="{{ inscricao.certificado.url }}" download class="btn btn-primary mx-2">📄 Descarregar Certificado</a>                  
-                    {% else %}
-                    <p style="text-align:center; margin-top:0; font-size:0.85rem">O certificado será disponibilizado aqui.</p>
-                    {% endif %}
-                {% endif %}
-            </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-
-
-    <h2  class="display-5 fw-bold text-body-emphasis lh-1 text-center mb-3"  style="margin-top:5ch !important;">Sessões Disponíveis</h2>
-    <div style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; align-items:stretch; gap:20px;">
-        {% for sessao in sessoes_disponiveis %}
-        <div class="cartao"  onclick="window.location.href='{% url 'tecweb:detalhe_sessao' sessao.id %}'">
+    <div
+        style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; align-items:stretch; gap:20px;">
+        {% for sessao in sessoes_orador %}
+        <div class="cartao" onclick="window.location.href='{% url 'tecweb:detalhe_sessao' sessao.id %}'">
             <h4 class="card-title" style="font-weight:bold;">
                 {{ sessao.titulo }}
             </h4>
 
             {% if sessao.foto_capa %}
             <div style="margin-top:auto; display:flex; flex-direction:row; justify-content:center;">
-                <img src="{{ sessao.foto_capa.url }}" class="d-block mx-lg-auto img-fluid rounded" alt="{{ sessao.titulo }}" style="max-height: 150px; max-width:200px;" loading="lazy">
+                <img src="{{ sessao.foto_capa.url }}" class="d-block mx-lg-auto img-fluid rounded"
+                    alt="{{ sessao.titulo }}" style="max-height: 150px; max-width:200px;" loading="lazy">
             </div>
             {% endif %}
             <div style="margin-top: auto">
-            {% if sessao.oradores.exists %}
+                {% if sessao.oradores.exists %}
                 {% for orador in sessao.oradores.all %}
-                    {% if orador.foto %}
-                        <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
-                    {% endif %}
+                {% if orador.foto %}
+                <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
+                {% endif %}
 
                 {% endfor %}
-            {% endif %}
+                {% endif %}
             </div>
-            <div  style="margin: 10px 0; display:flex; flex-direction:row; justify-content:flex-start; gap:15px;">
+            <div style="margin: 10px 0; display:flex; flex-direction:row; justify-content:flex-start; gap:15px;">
                 <span>
-                <i class="fas fa-calendar"></i>
-                {% for horario in sessao.horarios.all %}
+                    <i class="fas fa-calendar"></i>
+                    {% for horario in sessao.horarios.all %}
                     {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M" }}
                 </span>
                 <span><i class="fas fa-clock"></i> {{ horario.inicio|date:"H:i" }}-{{ horario.fim|date:"H:i" }}{% endif %}
-                {% endfor %}
+                    {% endfor %}
                 </span>
                 {% if sessao.sala %}
                 <span><i class="fas fa-door-open"></i> {{ sessao.sala }}</span>
                 {% endif %}
             </div>
-            
+
+            {% if not orador %}
             <div>
                 Vagas: {{ sessao.vagas_disponiveis }}/{{ sessao.vagas_totais }}
-                {% if not sessao.terminou and sessao.vagas_disponiveis or  sessao.inscricao_alargada %}
-                    <a href="{% url 'tecweb:inscrever_sessao' sessao.id %}" class="btn btn-success btn-sm" style="float:right;">Inscrever</a>
+                {% if not sessao.terminou and sessao.vagas_disponiveis or sessao.inscricao_alargada %}
+                <a href="{% url 'tecweb:inscrever_sessao' sessao.id %}" class="btn btn-success btn-sm"
+                    style="float:right;">Inscrever</a>
+                {% endif %}
+            </div>
+            {% else %}
+            <div>
+                <a href="{% url 'tecweb:sessao_inscritos' sessao.id %}" class="btn btn-info btn-sm"
+                    style="float:right;">Ver Inscrições</a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top:2ch;">
+        <a href="{% url 'admin:tecweb_sessaoevento_changelist' %}" class="btn btn-success btn-lg btn-block"
+            style="background: blue; color: white;">
+            Criar nova Sessão ou Gerir Sessões
+        </a>
+    </div>
+
+    {% if mostrar_registo %}
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top:2ch;">
+            <p class="lead text-center"><a style="font-size: 1.25rem; font-weight: 300;"
+                    href="https://classping.org/courses/78/school-classes" class="btn btn-success btn-lg btn-block"
+                    style="float:right;" target="_blank">Registo de Presencas</a></p>
+            <details style="font-weight: 300; margin-bottom:2ch;">
+                <summary>
+                    Gira as inscrições e presenças das suas sessões.
+                </summary>
+                <div style="background: white; padding:10px; border-radius:10px;">
+                    <b>Passos para fazer o registo de presenças</b>
+                    <ol style="margin-top: 0.5rem;">
+                        <li>Autentique-se com o seu email <strong>{{ orador.email }}</strong>.</li>
+                        <li>Em <em>Courses &gt; TecWeb</em>, procure a sua sessão.</li>
+                        <li>Clique em <em>Sessions</em>.</li>
+                        <li>Clique em <em>Start new session</em>.</li>
+                        <li>Projete no ecrã o QR Code para que os alunos registem a sua presença.</li>
+                        <li>Feche a sessão.</li>
+                        <li>As presenças ficarão armazenadas e poderá consultá-las ou alterá-las sempre que quiser.</li>
+                    </ol>
+                </div>
+            </details>
+        </div>
+    {% endif %}
+
+    {% endif %}
+
+    {% if sessoes_inscrito %}
+    <h2 class="display-5 fw-bold text-body-emphasis lh-1 text-center mb-3" style="margin-top:5ch !important;">Sessões em
+        que está Inscrito</h2>
+    <p class="lead text-center"><strong>Está inscrito em {{ num_sessoes }} sessões</strong></p>
+
+    <div
+        style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; align-items:stretch; gap:20px; padding:10px;">
+        {% for inscricao in sessoes_inscrito %}
+        <div class="cartao" onclick="window.location.href='{% url 'tecweb:detalhe_sessao' inscricao.sessao.id %}'">
+            <h4 class="card-title" style="text-align:center; font-weight:bold;">
+                {{ inscricao.sessao.titulo }}
+            </h4>
+
+            {% if inscricao.sessao.foto_capa %}
+            <div style="margin-top:auto; display:flex; flex-direction:row; justify-content:center;">
+                <img src="{{ inscricao.sessao.foto_capa.url }}" class="d-block mx-lg-auto img-fluid rounded"
+                    alt="{{ inscricao.sessao.titulo }}" style="max-height: 150px; max-width:200px;" loading="lazy">
+            </div>
+            {% endif %}
+            <div style="margin-top: auto; text-align: right;">
+                {% if inscricao.sessao.oradores.exists %}
+                {% for orador in inscricao.sessao.oradores.all %}
+                {% if orador.foto %}
+                <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
+                {% endif %}
+
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div style="margin: 10px 0; display:flex; flex-direction:row; justify-content:flex-end; gap:15px;">
+                <span>
+                    <i class="fas fa-calendar"></i>
+                    {% for horario in inscricao.sessao.horarios.all %}
+                    {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M" }}
+                </span>
+                <span><i class="fas fa-clock"></i> {{ horario.inicio|date:"H:i" }}-{{ horario.fim|date:"H:i" }}{% endif %}
+                    {% endfor %}
+                </span>
+
+                {% if sessao.sala %}
+                <span><i class="fas fa-door-open"></i> {{ sessao.sala }}</span>
+                {% endif %}
+                <br>
+
+            </div>
+            {% if not inscricao.sessao.terminou %}
+            <div style="text-align: right;">
+                <a href="{% url 'tecweb:desinscrever_sessao' inscricao.sessao.id %}"
+                    class="btn btn-outline-danger btn-sm">Desinscrever-me</a>
+            </div>
+            {% endif %}
+            {% if inscricao.sessao.terminou and not inscricao.inquerito %}
+            <a href="{% url 'tecweb:inquerito' inscricao.id %}" class="btn btn-success mx-2">Inquérito</a>
+            <p style="text-align:center; margin-top:0; font-size:0.85rem">Responda para receber o certificado.</p>
+            {% endif %}
+            {% if inscricao.sessao.terminou and inscricao.inquerito %}
+            {% if inscricao.certificado %}
+            <a href="{{ inscricao.certificado.url }}" download class="btn btn-primary mx-2">📄 Descarregar
+                Certificado</a>
+            {% else %}
+            <p style="text-align:center; margin-top:0; font-size:0.85rem">O certificado será disponibilizado aqui.</p>
+            {% endif %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+
+    <h2 class="display-5 fw-bold text-body-emphasis lh-1 text-center mb-3" style="margin-top:5ch !important;">
+        Outras Sessões</h2>
+    <div
+        style="display:flex; flex-direction:row; flex-wrap:wrap; justify-content:center; align-items:stretch; gap:20px;">
+        {% for sessao in sessoes_disponiveis %}
+        <div class="cartao" onclick="window.location.href='{% url 'tecweb:detalhe_sessao' sessao.id %}'">
+            <h4 class="card-title" style="font-weight:bold;">
+                {{ sessao.titulo }}
+            </h4>
+
+            {% if sessao.foto_capa %}
+            <div style="margin-top:auto; display:flex; flex-direction:row; justify-content:center;">
+                <img src="{{ sessao.foto_capa.url }}" class="d-block mx-lg-auto img-fluid rounded"
+                    alt="{{ sessao.titulo }}" style="max-height: 150px; max-width:200px;" loading="lazy">
+            </div>
+            {% endif %}
+            <div style="margin-top: auto">
+                {% if sessao.oradores.exists %}
+                {% for orador in sessao.oradores.all %}
+                {% if orador.foto %}
+                <img src="{{ orador.foto.url }}" alt="Foto Orador" class="rounded-circle me-2" width="40" height="40">
+                {% endif %}
+
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div style="margin: 10px 0; display:flex; flex-direction:row; justify-content:flex-start; gap:15px;">
+                <span>
+                    <i class="fas fa-calendar"></i>
+                    {% for horario in sessao.horarios.all %}
+                    {{ horario.inicio|date:"d" }}{% if not forloop.last %},{% else %}{{ horario.inicio|date:"/M" }}
+                </span>
+                <span><i class="fas fa-clock"></i> {{ horario.inicio|date:"H:i" }}-{{ horario.fim|date:"H:i" }}{% endif %}
+                    {% endfor %}
+                </span>
+                {% if sessao.sala %}
+                <span><i class="fas fa-door-open"></i> {{ sessao.sala }}</span>
+                {% endif %}
+            </div>
+
+            <div>
+                Vagas: {{ sessao.vagas_disponiveis }}/{{ sessao.vagas_totais }}
+                {% if not sessao.terminou and sessao.vagas_disponiveis or sessao.inscricao_alargada %}
+                <a href="{% url 'tecweb:inscrever_sessao' sessao.id %}" class="btn btn-success btn-sm"
+                    style="float:right;">Inscrever</a>
                 {% endif %}
             </div>
         </div>
@@ -205,5 +229,5 @@ body {background:whitesmoke;}
 
 
 
-    </div>
+</div>
 {% endblock %}

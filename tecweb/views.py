@@ -48,7 +48,12 @@ def listar_sessoes(request):
             context['orador'] = orador
             context['sessoes_orador'] = SessaoEvento.objects.filter(oradores=orador, ano=ano_atual)
             context['sessoes_disponiveis'] = SessaoEvento.objects.filter(ano=ano_atual).exclude(oradores=orador).order_by('titulo')
-         
+
+    from datetime import date
+    hoje = date.today()
+    mostrar_registo = date(2026, 3, 9) <= hoje <= date(2026, 3, 14)
+ 
+    context['mostrar_registo'] =  mostrar_registo
 
     return render(request, 'tecweb/lista_sessoes.html', context)
 
@@ -556,6 +561,7 @@ def exportar_inscritos_horas(request):
     response.charset = 'utf-8'
     return response
 
+from datetime import date
 
 def sessoes_orador(request):
     if request.user.is_authenticated:
@@ -567,12 +573,17 @@ def sessoes_orador(request):
 
         sessoes = SessaoEvento.objects.filter(oradores=orador, ano=ano_atual)
 
+        hoje = date.today()
+
+        mostrar_registo = date(2026, 3, 9) <= hoje <= date(2026, 3, 14)
+
         context = {
             'sessoes_disponiveis': sessoes,
             'orador': orador,
             'sessoes': SessaoEvento.objects.filter(ano=ano_atual).order_by('titulo'),
             'tipos': Tipo.objects.all(),
             'entidades': Entidade.objects.filter(sessoes__ano=ano_atual).order_by('nome'),
+            'mostrar_registo': mostrar_registo,
         }
 
         return render(request, 'tecweb/lista_sessoes.html', context)
