@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import Group
+
 
 class Tipo(models.Model):
     nome = models.CharField(max_length=200)
@@ -32,10 +34,19 @@ class Orador(models.Model):
     token = models.CharField(max_length=64, blank=True, null=True)
     
     class Meta:
-        ordering = ['nome']  # Definindo a ordena��o alfab�tica por nome
+        ordering = ['nome']  # Definindo a ordenacao alfabetica por nome
 
     def __str__(self):
         return f"{self.nome}"
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # grava primeiro o Orador
+        # Adiciona o User ao grupo 'orador'
+        group, _ = Group.objects.get_or_create(name='orador')
+        if not self.user.groups.filter(name='orador').exists():
+            self.user.groups.add(group)
+            self.user.save()
+
 
 from django.utils.timezone import now
 
