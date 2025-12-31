@@ -53,6 +53,12 @@ class SessaoEventoAdmin(admin.ModelAdmin):
         except Orador.DoesNotExist:
             return qs.none()  # Users sem orador não veem nada
 
+    def get_fields(self, request, obj=None):
+        fields = list(super().get_fields(request, obj))
+        if not request.user.is_superuser:
+            fields.remove('token')
+        return fields
+
 from .models import Horario
 from .forms import HorarioForm
 
