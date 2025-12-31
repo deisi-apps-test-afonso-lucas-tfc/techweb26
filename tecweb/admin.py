@@ -98,7 +98,7 @@ class InscricaoAdmin(admin.ModelAdmin):
 class OradorAdmin(admin.ModelAdmin):
     list_display = ('nome', 'email', 'entidade', 'linkedin', 'orcid', 'short_cv', 'foto')
     ordering = ('nome',)
-    search_fields = ('nome', 'cienciaid')
+    search_fields = ('nome','email','orcid','user__first_name','user__last_name')
     list_editable = ('email',)
     list_display_links = ('nome',)  # required so category isn't the link
 
