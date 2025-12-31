@@ -8,7 +8,7 @@
         <h2 class="text-center" style="font-weight: bold; margin-top:3ch !important;">Login</h2>
 
         <div class="card" style="margin-top:40px;">
-          <div class="card-header" style="background: lightgrey;">
+          <div class="card-header" style="background: #0d6efd; color: white;">
             <h3 class="card-title text-center fw-bold">Orador</h3>
           </div>
 
@@ -23,7 +23,7 @@
               <form method="POST" action="{% url 'tecweb:login-orador' %}">
                 {% csrf_token %}
                 <input type="email" name="email" required placeholder="Insira o seu email" class="btn" style="width:100%; border:1px solid lightgrey; cursor:text; background: whitesmoke;">
-                <button type="submit" class="btn btn-outline-success" style="width:100%; margin-top:5px;"> ✉️ Enviar email de autenticação</button>
+                <button type="submit" class="btn btn-success" style="width:100%; margin-top:5px;"> ✉️ Enviar email de autenticação</button>
               </form>
 
               <div class="mt-4 text-center">
@@ -37,7 +37,7 @@
 
         <div class="card"style="margin-top:40px;">
           
-          <div class="card-header" style="background: lightgrey;">
+          <div class="card-header" style="background: #0d6efd; color: white;">
             <h3 class="card-title text-center fw-bold">Participante</h3>
           </div>
 
@@ -49,7 +49,7 @@
             {% endif %}
 
             <div class="text-center" style="margin:10px 0;">
-              <a href="{% provider_login_url 'google' %}?next=/autenticar" class="btn btn-outline-success" style="width:100%;">
+              <a href="{% provider_login_url 'google' %}?next=/autenticar" class="btn btn-success" style="width:100%;">
                 <svg style="height:2ch;width:2ch;margin-right:10px;" viewBox="-0.5 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
                   <g id="SVGRepo_iconCarrier">
                     <title>Google-color</title>

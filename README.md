@@ -1,3 +1,8 @@
+# Utilizadores
+
+* orador: OradorTecweb DEISI2025
+* gestor: gestor DEISI2025
+
 # comentei no menu fotografias! ativar no final
 
 # nao esquecer de sempre remover do git o db.sqlite3

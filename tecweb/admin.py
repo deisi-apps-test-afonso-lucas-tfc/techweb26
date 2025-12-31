@@ -168,6 +168,24 @@ class EntidadeAdmin(admin.ModelAdmin):
 
     link_preview.short_description = "Website"
 
+    # Permitir que oradores adicionem entidades
+    def has_add_permission(self, request):
+        if request.user.groups.filter(name='orador').exists():
+            return True
+        return super().has_add_permission(request)
+
+    # Permitir que oradores alterem apenas entidades que criaram
+    def has_change_permission(self, request, obj=None):
+        if obj is not None and request.user.groups.filter(name='orador').exists():
+            return obj.criado_por == request.user  # assumindo que tens um campo 'criado_por' no modelo Entidade
+        return super().has_change_permission(request, obj)
+
+    # Permitir que oradores deletem apenas entidades que criaram
+    def has_delete_permission(self, request, obj=None):
+        if obj is not None and request.user.groups.filter(name='orador').exists():
+            return obj.criado_por == request.user
+        return super().has_delete_permission(request, obj)
+    
 
 admin.site.register(Entidade, EntidadeAdmin)
 
