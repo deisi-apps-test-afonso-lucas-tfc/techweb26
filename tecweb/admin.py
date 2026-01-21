@@ -55,7 +55,7 @@ class SessaoEventoAdmin(admin.ModelAdmin):
 
     def get_fields(self, request, obj=None):
         fields = list(super().get_fields(request, obj))
-        if not request.user.is_superuser:
+        if not request.user.is_superuser and 'token' in fields:
             fields.remove('token')
         return fields
 
