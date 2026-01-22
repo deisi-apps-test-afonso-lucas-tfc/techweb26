@@ -76,14 +76,6 @@ body {background:whitesmoke;}
         {% endfor %}
     </div>
 
-
-    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top:2ch;">
-        <a href="{% url 'admin:tecweb_sessaoevento_changelist' %}" class="btn btn-success btn-lg btn-block"
-            style="background: #0d6efd; color: white;">
-            Criar nova Sessão ou Gerir Sessões
-        </a>
-    </div>
-
     {% if mostrar_registo %}
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top:2ch;">
             <p class="lead text-center"><a style="font-size: 1.25rem; font-weight: 300;"
@@ -109,6 +101,15 @@ body {background:whitesmoke;}
         </div>
     {% endif %}
 
+    {% endif %}
+
+    {% if orador %}
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top:2ch;">
+        <a href="{% url 'admin:tecweb_sessaoevento_changelist' %}" class="btn btn-success btn-lg btn-block"
+            style="background: #0d6efd; color: white;">
+            Criar nova Sessão ou Gerir Sessões
+        </a>
+    </div>
     {% endif %}
 
     {% if sessoes_inscrito %}
