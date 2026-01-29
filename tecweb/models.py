@@ -52,15 +52,15 @@ class Orador(models.Model):
 from django.utils.timezone import now
 
 class SessaoEvento(models.Model):
-    ano = models.IntegerField()
-    titulo = models.CharField(max_length=255, default='', null=True, blank=True)
-    titulo_curto = models.CharField(max_length=255, default='', null=True, blank=True)
+    ano = models.IntegerField(default=2026)
+    titulo = models.CharField(max_length=255)
+    titulo_curto = models.CharField(max_length=255)
     entidades = models.ManyToManyField(Entidade, related_name="sessoes")
     foto_capa = models.ImageField(upload_to='tecweb/fotos', null = True, blank = True)
     sala = models.CharField(max_length=255, default='', null=True, blank=True)
     morada = models.TextField(default='', null=True, blank=True)
     oradores = models.ManyToManyField(Orador, related_name="sessoes", blank=True)
-    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE)
     objetivo = models.TextField(default='', null=True, blank=True)
     prerequisitos = models.TextField(default='', blank=True)
     topicos = models.TextField(default='', null=True, blank=True)
@@ -69,7 +69,7 @@ class SessaoEvento(models.Model):
     duracao = models.TextField(default='', null=True, blank=True)
     ferramentas = models.TextField(default='', null=True, blank=True)
     recursos_necessarios = models.TextField(default='', null=True, blank=True)
-    vagas_totais = models.IntegerField(default=20)  # Total de vagas da sessão
+    vagas_totais = models.IntegerField(default=20)  
     inscricao_alargada = models.BooleanField()
 
     def oradores_ordenados(self):
