@@ -45,7 +45,7 @@ class SessaoEventoAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser:
+        if request.user.is_superuser or request.user.groups.filter(name='gestor_sessoes').exists():
             return qs
         try:
             orador = request.user.orador
@@ -55,7 +55,10 @@ class SessaoEventoAdmin(admin.ModelAdmin):
 
     def get_fields(self, request, obj=None):
         fields = list(super().get_fields(request, obj))
-        if not request.user.is_superuser:
+       
+        is_gestor = request.user.groups.filter(name='gestor_sessoes').exists()
+
+        if not request.user.is_superuser and not is_gestor:
             fields.remove('token')
         return fields
 
@@ -106,31 +109,52 @@ class OradorAdmin(admin.ModelAdmin):
     ordering = ('nome',)
     search_fields = ('nome','email','orcid','user__first_name','user__last_name')
     list_editable = ('email',)
-    list_display_links = ('nome',)  # required so category isn't the link
+    list_display_links = ('nome',)
 
     def short_cv(self, obj):
         return obj.cv[:20] + "..." if obj.cv and len(obj.cv) > 20 else obj.cv
 
     short_cv.short_description = "CV"
 
+    def is_gestor(self, request):
+        return request.user.groups.filter(name='gestor_sessoes').exists()
+
+    def is_orador(self, request):
+        return request.user.groups.filter(name='orador').exists()
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        # Se o user pertence ao grupo 'orador', mostra apenas o Orador associado
-        if request.user.groups.filter(name='orador').exists():
-            return qs.filter(user=request.user)
-        return qs  # Admins e outros grupos veem todos
 
-    # Garante que o orador só pode alterar o seu próprio registro
+        # Gestores (e superusers) veem todos
+        if request.user.is_superuser or self.is_gestor(request):
+            return qs
+
+        # Oradores veem apenas o seu registo
+        if self.is_orador(request):
+            return qs.filter(user=request.user)
+
+        return qs
+
     def has_change_permission(self, request, obj=None):
-        if obj is not None and request.user.groups.filter(name='orador').exists():
+        # Gestores (e superusers) podem editar tudo
+        if request.user.is_superuser or self.is_gestor(request):
+            return True
+
+        # Oradores só podem editar o próprio
+        if obj is not None and self.is_orador(request):
             return obj.user == request.user
+
         return super().has_change_permission(request, obj)
 
-    # Garante que o orador não pode deletar outros registros
     def has_delete_permission(self, request, obj=None):
-        if obj is not None and request.user.groups.filter(name='orador').exists():
+        # Gestores (e superusers) podem apagar tudo
+        if request.user.is_superuser or self.is_gestor(request):
+            return True
+
+        # Oradores só podem apagar o próprio
+        if obj is not None and self.is_orador(request):
             return obj.user == request.user
+
         return super().has_delete_permission(request, obj)
 
 

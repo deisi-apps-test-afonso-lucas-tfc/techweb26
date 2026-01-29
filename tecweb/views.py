@@ -11,7 +11,7 @@ from django.contrib.auth import logout
 from allauth.socialaccount.models import SocialAccount
 
 from django.core.mail import send_mail
-
+from .utils import enviar_backup_se_necessario
 
 def listar_sessoes(request):
 
@@ -19,7 +19,7 @@ def listar_sessoes(request):
     aluno = None
     context = {}
     context['tipos'] = Tipo.objects.all()
-    context['entidades'] = Entidade.objects.filter(sessoes__ano=ano_atual).order_by('nome')
+    context['entidades'] = Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
     context['sessoes_disponiveis'] = SessaoEvento.objects.filter(ano=ano_atual).order_by('titulo')
 
     if request.user.is_authenticated:
@@ -62,6 +62,7 @@ def listar_sessoes(request):
 def fotos_view(request):
 
     context = {}
+    context['entidades'] = Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
     context['sessoes'] = SessaoEvento.objects.filter(ano=ano_atual).order_by('titulo')
 
     superuser=None
@@ -75,12 +76,12 @@ def fotos_view(request):
 
 
 def oradores_view(request):
-    
-    oradores = Orador.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
-    context = {}
 
-    lista = []
-    
+    context = {}
+    context['entidades'] = Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+
+    oradores = Orador.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+    lista = []  
     
     for orador in oradores:
         sessoes = (
@@ -113,7 +114,6 @@ def empresas_view(request):
 
     context = {}
     
-
     entidades = Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
 
     lista = []
@@ -125,13 +125,14 @@ def empresas_view(request):
             .distinct()
             .order_by('titulo') 
         )
+
+        oradores = set() 
+        for sessao in sessoes:
+            for orador in sessao.oradores.all():
+                if orador.entidade == entidade:
+                    oradores.add(orador)
     
-        oradores = (
-            Orador.objects
-            .filter(sessoes__entidades=entidade, sessoes__ano=ano_atual)
-            .distinct()
-            .order_by('nome')
-        )
+        
     
         lista.append({
             'entidade': entidade,
@@ -139,7 +140,10 @@ def empresas_view(request):
             'oradores': list(oradores)     
         })
 
-    context['entidades'] = lista
+    context['empresas'] = lista
+    
+    context['entidades'] = Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+    
 
     superuser=None
     if request.user.is_authenticated:
@@ -316,7 +320,7 @@ def detalhe_sessao(request, id):
         'orador_autenticado': orador_autenticado,
         'aluno': aluno, 
         'inscricao_id':inscricao_id, 
-        'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).order_by('nome'), 
+        'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome'), 
         'superuser': superuser,
         'inscritos': Inscricao.objects.filter(sessao=sessao).count(),
         'inqueritos': n_inqueritos,
@@ -372,7 +376,12 @@ def calendario(request):
         superuser = User.objects.filter(email=email, is_superuser=True).first()
         
         if superuser:
-            return render(request, 'tecweb/calendario.html', {'num_sessoes':num_sessoes, 'tipos': Tipo.objects.all(), 'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).order_by('nome'), 'superuser': superuser,})
+            return render(request, 'tecweb/calendario.html', {
+                'num_sessoes':num_sessoes, 
+                'tipos': Tipo.objects.all(), 
+                'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome'), 
+                'superuser': superuser,
+            })
         
         user = request.user
         aluno = 1 if Aluno.objects.filter(user=request.user).exists() else 0
@@ -383,10 +392,17 @@ def calendario(request):
         elif not Orador.objects.filter(email=request.user.email).exists():
             return redirect('tecweb:register')
             
-    return render(request, 'tecweb/calendario.html', {'num_sessoes':num_sessoes, 'tipos': Tipo.objects.all(), 'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).order_by('nome'), 'superuser': superuser,})
+    return render(request, 'tecweb/calendario.html', {
+        'num_sessoes':num_sessoes, 
+        'tipos': Tipo.objects.all(), 
+        'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome'), 
+        'superuser': superuser,    
+    })
 
 
 def about(request):
+    enviar_backup_se_necessario()
+
     superuser=None
     if request.user.is_authenticated:
         email = request.user.email
@@ -394,7 +410,7 @@ def about(request):
         
     from .indicadores import indicadores
     context = indicadores(ano_atual)
-    context['entidades'] = Entidade.objects.filter(sessoes__ano=ano_atual).order_by('nome')
+    context['entidades'] = Entidade.objects.filter(sessoes__ano=ano_atual).order_by('nome').distinct()
     context['superuser'] = superuser
     
     return render(request, "tecweb/about.html", context)
@@ -402,7 +418,9 @@ def about(request):
 def login_view(request):
     if 'numero_aluno' in request.session or request.user.is_authenticated:
         return redirect('tecweb:sessoes')
-    return render(request, 'tecweb/login.html', {'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).order_by('nome')})
+    return render(request, 'tecweb/login.html', {
+        'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+    })
 
 def register_view(request):
     if request.user.is_authenticated:
@@ -463,7 +481,9 @@ def register_view(request):
 
         return redirect('tecweb:sessoes')
 
-    return render(request, 'tecweb/register.html')
+    return render(request, 'tecweb/register.html', {
+        'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+    })
 
 def logout_view(request):
     request.session.flush()
@@ -523,7 +543,12 @@ def sessao_inscritos(request, sessao_id):
     sessao = get_object_or_404(SessaoEvento, id=sessao_id)
     inscritos = Inscricao.objects.filter(sessao=sessao).select_related('aluno__user')
 
-    return render(request, 'tecweb/sessao_inscritos.html', {'inscritos': inscritos, 'sessao': sessao, 'superuser': superuser,})
+    return render(request, 'tecweb/sessao_inscritos.html', {
+        'inscritos': inscritos, 
+        'sessao': sessao, 
+        'superuser': superuser,
+        'entidades':Entidade.objects.filter(sessoes__ano=ano_atual).distinct().order_by('nome')
+    })
 
 
 
