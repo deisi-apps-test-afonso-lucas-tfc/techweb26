@@ -53,15 +53,6 @@ class SessaoEventoAdmin(admin.ModelAdmin):
         except Orador.DoesNotExist:
             return qs.none()  # Users sem orador não veem nada
 
-    def get_fields(self, request, obj=None):
-        fields = list(super().get_fields(request, obj))
-       
-        is_gestor = request.user.groups.filter(name='gestor_sessoes').exists()
-
-        if not request.user.is_superuser and not is_gestor:
-            fields.remove('token')
-        return fields
-
 from .models import Horario
 from .forms import HorarioForm
 
@@ -121,6 +112,14 @@ class OradorAdmin(admin.ModelAdmin):
 
     def is_orador(self, request):
         return request.user.groups.filter(name='orador').exists()
+
+    def get_fields(self, request, obj=None):
+        fields = list(super().get_fields(request, obj))
+
+        if not request.user.is_superuser:
+            if 'token' in fields:
+                fields.remove('token')
+        return fields
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
