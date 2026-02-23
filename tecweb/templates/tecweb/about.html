@@ -99,7 +99,7 @@
                         {% if entidade.link and entidade.logotipo %}
                             <a href="{{ entidade.link }}">
                                 <img src="{{ entidade.logotipo.url }}" class="d-block mx-lg-auto img-fluid rounded"
-                                    alt="{{ entidade.nome }}" style="max-width: 100px; width:auto;" loading="lazy">
+                                    alt="{{ entidade.nome }}" style="max-width: 100px; max-height: 50px;  width:auto;" loading="lazy">
                             </a>
                         {% endif %}
                     {% endfor %}

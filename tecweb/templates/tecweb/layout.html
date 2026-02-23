@@ -352,7 +352,7 @@
 	<footer class="navbar fixed-bottom bg-light p-2" style="border-top:4px solid black;">
 		{% for entidade in entidades %}
 		<img src="{{ entidade.logotipo.url }}" class="d-block mx-lg-auto img-fluid rounded" alt="{{ entidade.nome }}"
-			style="max-width: 50px; width:auto;" loading="lazy">
+			style="max-width: 50px; max-height: 20px; width:auto;" loading="lazy">
 		{% endfor %}
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
