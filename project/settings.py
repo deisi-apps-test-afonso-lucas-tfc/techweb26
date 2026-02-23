@@ -28,6 +28,7 @@ SECRET_KEY = 'django-insecure-1(5%9eefdb@&g3q&+dyvqgogxoi67au2tfv2h*&59#&be5qy8&
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
+
 DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -69,6 +70,12 @@ INSTALLED_APPS = [
 
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+
 
 
 SOCIALACCOUNT_PROVIDERS = {
