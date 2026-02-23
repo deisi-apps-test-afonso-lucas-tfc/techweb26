@@ -96,10 +96,12 @@
                 <h3 class="mb-3 mt-5 border-bottom fs-2 fw-bold">Entidades participantes</h3>
                 <div class="d-flex flex-row flex-wrap justify-content-center align-items-center gap-3">
                     {% for entidade in entidades %}
-                    <a href="{{ entidade.link }}">
-                        <img src="{{ entidade.logotipo.url }}" class="d-block mx-lg-auto img-fluid rounded"
-                            alt="{{ entidade.nome }}" style="max-width: 100px; width:auto;" loading="lazy">
-                    </a>
+                        {% if entidade.link and entidade.logotipo %}
+                            <a href="{{ entidade.link }}">
+                                <img src="{{ entidade.logotipo.url }}" class="d-block mx-lg-auto img-fluid rounded"
+                                    alt="{{ entidade.nome }}" style="max-width: 100px; width:auto;" loading="lazy">
+                            </a>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
