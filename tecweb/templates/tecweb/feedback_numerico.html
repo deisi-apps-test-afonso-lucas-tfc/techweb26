@@ -1,0 +1,31 @@
+{% extends 'tecweb/layout.html' %}
+{% load static %}
+{% block content %}
+<h2>Feedback Numérico das Sessões</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sessão</th>
+            <th>Interesse</th>
+            <th>Qualidade</th>
+            <th>Relevância</th>
+            <th>Formador</th>
+            <th>Conteúdos</th>
+            <th>Satisfação</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sessao in sessoes %}
+        <tr>
+            <td>{{ sessao.titulo }}</td>
+            <td>{{ sessao.media_interesse|floatformat:2 }}</td>
+            <td>{{ sessao.media_qualidade|floatformat:2 }}</td>
+            <td>{{ sessao.media_relevancia|floatformat:2 }}</td>
+            <td>{{ sessao.media_formador|floatformat:2 }}</td>
+            <td>{{ sessao.media_conteudos|floatformat:2 }}</td>
+            <td>{{ sessao.media_satisfacao|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
