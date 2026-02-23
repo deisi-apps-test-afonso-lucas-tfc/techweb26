@@ -12,9 +12,6 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copiar código
 COPY . .
 
-# Recolher ficheiros estáticos
-RUN python manage.py collectstatic --noinput
-
 # Tornar o entrypoint executável
 RUN chmod +x /app/entrypoint.sh
 

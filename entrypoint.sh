@@ -33,6 +33,10 @@ fi
 echo "🛠 Applying migrations..."
 python manage.py migrate --noinput
 
+# Collect static files to mounted volume
+echo "📦 Collecting static files..."
+python manage.py collectstatic --noinput
+
 # Ativar cron job para envio de backup de BD
 # echo "Registering cron jobs..."
 # python manage.py crontab add || true
