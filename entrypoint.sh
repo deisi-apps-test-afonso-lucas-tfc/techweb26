@@ -18,8 +18,16 @@ else
   echo "✅ Production database found. Keeping existing data."
 fi
 
+
 # Garantir permissões
 chmod 664 "$DB_PATH"
+
+# Verificar pasta media
+if [ -d "/app/media" ] && [ "$(ls -A /app/media)" ]; then
+  echo "✅ Media folder found. Keeping existing media files."
+else
+  echo "⚠️  Media folder missing or empty!"
+fi
 
 # Aplicar migrações (seguro mesmo com dados)
 echo "🛠 Applying migrations..."
