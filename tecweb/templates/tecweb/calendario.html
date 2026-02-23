@@ -69,17 +69,139 @@ display: flex;
 justify-content: space-between;
 }
 }
+
+/* ===== FUNDO E CONTAINER ===== */
+body {
+  background: #F6F8FB;
+}
+
+#calendar {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  border: 1px solid #E3E8EF;
+}
+
+/* ===== CABEÇALHO ===== */
+.fc-toolbar-title {
+  font-weight: 600;
+  color: #1F2937;
+}
+
+/* ===== GRELHA ===== */
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px solid #E3E8EF;
+}
+
+.fc-timegrid-slot {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.fc-timegrid-slot:hover {
+  background: #F1F5F9;
+}
+
+/* ===== HOJE ===== */
+.fc-day-today {
+  background: #FEF3C7 !important;
+  border-left: 3px solid #F59E0B !important;
+}
+
+/* ===== EVENTOS ===== */
+.fc-event {
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 2px 4px;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.fc-event:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+/* evento não inscrito */
+.hidden {
+  opacity: 0.25;
+  filter: grayscale(40%);
+}
+
+/* ===== TEXTO DOS EVENTOS ===== */
+.event-title {
+  padding: 4px 2px 0;
+  text-align: center;
+  font-weight: 600;
+  word-wrap: break-word;
+  overflow: hidden;
+  font-size: 0.9em;
+}
+
+.event-time {
+  text-align: center;
+  font-size: 0.7em;
+  color: rgba(255,255,255,0.9);
+}
+
+.event-vagas {
+  font-size: 0.65em;
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+
+/* ===== BOTÕES ===== */
+.btn-outline-success {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* ===== LEGENDA DE TIPOS ===== */
+.container span[style] {
+  border-radius: 999px !important;
+  padding: 5px 12px !important;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* ===== CARD DE CONTACTO ===== */
+.bg-gray-100 {
+  background: #FFFFFF !important;
+  border: 1px solid #E3E8EF;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  #calendar {
+    padding: 10px;
+  }
+
+  .fc-toolbar-title {
+    font-size: 1.1rem;
+  }
+}
+
+
+
+
 {% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="display-5 fw-bold text-center mt-5">
+    <h1 class="text-center mt-5 mb-3 fw-semibold">
         Calendário de Sessões
     </h1>
 
     <div class="mb-4 d-flex flex-wrap justify-content-center">
         {% for tipo in tipos %}
-        <span style="background-color:{{tipo.backgroundColor}}; color:white;
+        <span class="badge rounded-pill" style="background-color:{{tipo.backgroundColor}}; color:white;
                   margin:5px; padding:3px 10px; border-radius:5px;">
             {{ tipo.nome }}
         </span>
