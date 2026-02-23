@@ -7,42 +7,10 @@ services:
       - .env
     volumes:
       - db_data:/data
-      - ./media:/app/media
+      - media:/app/media
     ports:
       - "3000:3000"
-    depends_on:
-      - redis
-
-  redis:
-    image: redis:7.0
-    container_name: redis
-    ports:
-      - "6379:6379"
-
-  celery:
-    build: .
-    container_name: celery-worker
-    command: ["./wait-for-redis.sh", "celery", "-A", "project", "worker", "--loglevel=info"]
-    env_file:
-      - .env
-    volumes:
-      - db_data:/data
-      - .:/app
-    depends_on:
-      - redis
-
-  celery-beat:
-    build: .
-    container_name: celery-beat
-    command: ["./wait-for-redis.sh", "celery", "-A", "project", "beat", "--loglevel=info"]
-    env_file:
-      - .env
-    volumes:
-      - db_data:/data
-      - .:/app
-    depends_on:
-      - redis
-    restart: always
 
 volumes:
   db_data:
+  media:
