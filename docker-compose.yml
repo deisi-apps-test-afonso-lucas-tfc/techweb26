@@ -7,10 +7,10 @@ services:
       - .env
     volumes:
       - db_data:/data
-      - ./media:/app/media
-      - ./staticfiles:/app/staticfiles
+      - media:/app/media
     ports:
       - "3000:3000"
 
 volumes:
   db_data:
+  media:
