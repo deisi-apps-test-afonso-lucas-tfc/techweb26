@@ -70,6 +70,7 @@ jobs:
               --network vm-pw_pw-network \
               --expose 3000 \
               -v "${STUDENT_ID}_sqlite:/data" \
+              -v "${STUDENT_ID}_media:/app/media" \
               -e SQLITE_PATH=/data/db.sqlite3 \
               -e DEBUG="${{ secrets.DEBUG }}" \
               -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
