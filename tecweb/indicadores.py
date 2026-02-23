@@ -48,15 +48,15 @@ def indicadores(ano):
     info['n_sessoes'] = num_sessoes
 #    print(f"Existem {num_sessoes} sessoes:", tipos)
 
-    oradores = Orador.objects.filter(sessoes__ano=ano).count()
+    oradores = Orador.objects.filter(sessoes__ano=ano).distinct().count()
     info['n_oradores'] = oradores
 #    print(f"Existem {oradores} oradores")
 
-    entidades = Entidade.objects.filter(sessoes__ano=ano).count()
+    entidades = Entidade.objects.filter(sessoes__ano=ano).distinct().count()
     info['n_entidades'] = entidades
 #    print(f"Existem {entidades} entidades")
 
-    n_alunos = Aluno.objects.filter(inscricoes__ano=ano).count()
+    n_alunos = Aluno.objects.filter(inscricoes__ano=ano).distinct().count()
     info['n_alunos'] = n_alunos
 
     info['horas_por_aluno'] = 0 if n_alunos == 0 else round(horas_ocupadas / n_alunos)	
