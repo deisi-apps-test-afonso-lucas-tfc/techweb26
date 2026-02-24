@@ -45,13 +45,17 @@ class SessaoEventoAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name='gestor_sessoes').exists():
+        if request.user.is_superuser or request.user.groups.filter(name='manager').exists():
             return qs
         try:
             orador = request.user.orador
             return qs.filter(oradores=orador)
         except Orador.DoesNotExist:
             return qs.none()  # Users sem orador não veem nada
+
+
+
+
 
 from .models import Horario
 from .forms import HorarioForm
@@ -107,8 +111,8 @@ class OradorAdmin(admin.ModelAdmin):
 
     short_cv.short_description = "CV"
 
-    def is_gestor(self, request):
-        return request.user.groups.filter(name='gestor_sessoes').exists()
+    def is_manager(self, request):
+        return request.user.groups.filter(name='manager').exists()
 
     def is_orador(self, request):
         return request.user.groups.filter(name='orador').exists()
