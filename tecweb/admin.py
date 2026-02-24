@@ -129,7 +129,7 @@ class OradorAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
 
         # Gestores (e superusers) veem todos
-        if request.user.is_superuser or self.is_gestor(request):
+        if request.user.is_superuser or self.is_manager(request):
             return qs
 
         # Oradores veem apenas o seu registo
@@ -140,7 +140,7 @@ class OradorAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         # Gestores (e superusers) podem editar tudo
-        if request.user.is_superuser or self.is_gestor(request):
+        if request.user.is_superuser or self.is_manager(request):
             return True
 
         # Oradores só podem editar o próprio
@@ -151,7 +151,7 @@ class OradorAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         # Gestores (e superusers) podem apagar tudo
-        if request.user.is_superuser or self.is_gestor(request):
+        if request.user.is_superuser or self.is_manager(request):
             return True
 
         # Oradores só podem apagar o próprio
