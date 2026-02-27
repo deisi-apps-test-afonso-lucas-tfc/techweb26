@@ -65,10 +65,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'portefolio',
     'jobshop',
     'markdownify.apps.MarkdownifyConfig',
-    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -77,6 +77,8 @@ INSTALLED_APPS = [
     'tecweb.apps.TecwebConfig',
 ]
 
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
