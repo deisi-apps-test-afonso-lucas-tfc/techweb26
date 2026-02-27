@@ -28,6 +28,12 @@ SECRET_KEY = 'django-insecure-1(5%9eefdb@&g3q&+dyvqgogxoi67au2tfv2h*&59#&be5qy8&
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
+SITE_ID = 1
+
+# (opcional mas recomendado)
+DEFAULT_DOMAIN = "tecweb26.pw.deisi.ulusofona.pt"
+DEFAULT_SITE_NAME = "tecweb26"
+
 
 DEBUG = True
 ALLOWED_HOSTS = [
@@ -66,6 +72,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     "crispy_forms",
+    'tecweb.apps.TecwebConfig',
 ]
 
 
