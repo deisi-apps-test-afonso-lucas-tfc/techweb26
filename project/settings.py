@@ -28,16 +28,13 @@ SECRET_KEY = 'django-insecure-1(5%9eefdb@&g3q&+dyvqgogxoi67au2tfv2h*&59#&be5qy8&
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# (opcional mas recomendado)
 DEFAULT_DOMAIN = "tecweb26.pw.deisi.ulusofona.pt"
 DEFAULT_SITE_NAME = "tecweb26"
 
+# ALLOWED_HOSTS = ['127.0.0.1','localhost', 'tecweb26.pw.deisi.ulusofona.pt']
 
 DEBUG = True
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost', 
-    'tecweb26.pw.deisi.ulusofona.pt']
+ALLOWED_HOSTS = ['tecweb26.pw.deisi.ulusofona.pt']
 
     
 CODESPACES = os.environ.get("CODESPACES") == "true"
@@ -77,28 +74,24 @@ INSTALLED_APPS = [
     'tecweb.apps.TecwebConfig',
 ]
 
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/autenticar"
+LOGOUT_REDIRECT_URL = "/login"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 USE_X_FORWARDED_HOST = True
+SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
-
+SOCIALACCOUNT_REDIRECT_URL = "https://tecweb26.pw.deisi.ulusofona.pt"
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
-        "SCOPES": {
-            "profile",
-            "email",
-            "openid"
-        },
-        "AUTH_PARAMS": {
-            "access_type": "online"
-        }
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "online"},
+        "OAUTH_PKCE_ENABLED": True,
     }
 }
 
