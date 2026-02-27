@@ -41,6 +41,11 @@ ALLOWED_HOSTS = [
     'localhost', 
     'tecweb26.pw.deisi.ulusofona.pt']
 
+    
+CODESPACES = os.environ.get("CODESPACES") == "true"
+if CODESPACES:
+    ALLOWED_HOSTS += [".app.github.dev", ".github.dev"]
+
 
 CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8000",
@@ -62,7 +67,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tecweb',
     'portefolio',
     'jobshop',
     'markdownify.apps.MarkdownifyConfig',
