@@ -136,6 +136,7 @@ LOGGING = {
     },
 }
 
+
 ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
