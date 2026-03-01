@@ -72,6 +72,7 @@ jobs:
               -v "${STUDENT_ID}_sqlite:/data" \
               -v "${STUDENT_ID}_media:/app/media" \
               -e SQLITE_PATH=/data/db.sqlite3 \
+              -e SITE_ID=5 \
               -e DEBUG="${{ secrets.DEBUG }}" \
               -e SECRET_KEY="${{ secrets.SECRET_KEY }}" \
               -e SITE_URL="${{ secrets.SITE_URL }}" \
