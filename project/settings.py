@@ -66,7 +66,7 @@ if CODESPACES:
 
 # Application definition
 
-SITE_ID = int(os.environ.get('SITE_ID', '5'))
+SITE_ID = int(os.environ.get('SITE_ID') or '5')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -248,7 +248,7 @@ AUTHENTICATION_BACKENDS = (
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT') or '587')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() in ('true', '1', 'yes')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'deisi.ulusofona@gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'yazbntnpwgwwusnm')
