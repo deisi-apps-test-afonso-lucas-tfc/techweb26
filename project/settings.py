@@ -24,40 +24,49 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))  # carrega variáveis do .env
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1(5%9eefdb@&g3q&+dyvqgogxoi67au2tfv2h*&59#&be5qy8&'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-1(5%9eefdb@&g3q&+dyvqgogxoi67au2tfv2h*&59#&be5qy8&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEFAULT_DOMAIN = "tecweb26.pw.deisi.ulusofona.pt"
-DEFAULT_SITE_NAME = "tecweb26"
+DEFAULT_DOMAIN = os.environ.get('SITE_DOMAIN', 'tecweb26.pw.deisi.ulusofona.pt')
+DEFAULT_SITE_NAME = os.environ.get('SITE_NAME', 'tecweb26')
 
 
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
 ALLOWED_HOSTS = [
-    "tecweb26.pw.deisi.ulusofona.pt",
+    DEFAULT_DOMAIN,
     ".app.github.dev",  
     "localhost",
     "127.0.0.1",
 ]
 
     
-CODESPACES = os.environ.get("CODESPACES") == "true"
-if CODESPACES:
-    ALLOWED_HOSTS += [".app.github.dev", ".github.dev"]
-
-
 CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8000",
     "http://localhost:8000",
     "https://127.0.0.1:8000",
     "http://127.0.0.1:8000",
-    "https://tecweb26.pw.deisi.ulusofona.pt",
+    "http://localhost:3000",
+    "https://localhost:3000",
+    f"https://{DEFAULT_DOMAIN}",
 ]
+
+CODESPACES = os.environ.get("CODESPACES") == "true"
+if CODESPACES:
+    ALLOWED_HOSTS += [".app.github.dev", ".github.dev"]
+    CODESPACE_NAME = os.environ.get("CODESPACE_NAME", "")
+    GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN = os.environ.get(
+        "GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN", "app.github.dev"
+    )
+    CSRF_TRUSTED_ORIGINS += [
+        f"https://{CODESPACE_NAME}-3000.{GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}",
+        f"https://{CODESPACE_NAME}-8000.{GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}",
+    ]
 
 
 # Application definition
 
-SITE_ID=5
+SITE_ID = int(os.environ.get('SITE_ID', '5'))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -84,12 +93,12 @@ LOGOUT_REDIRECT_URL = "/login"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 USE_X_FORWARDED_HOST = True
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = not DEBUG
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http" if DEBUG else "https"
 
-SOCIALACCOUNT_REDIRECT_URL = "https://tecweb26.pw.deisi.ulusofona.pt"
+SOCIALACCOUNT_REDIRECT_URL = os.environ.get('SITE_URL', f"https://{DEFAULT_DOMAIN}")
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -238,8 +247,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'deisi.ulusofona@gmail.com'
-EMAIL_HOST_PASSWORD = 'yazbntnpwgwwusnm'  # usar uma google app password
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() in ('true', '1', 'yes')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'deisi.ulusofona@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'yazbntnpwgwwusnm')
