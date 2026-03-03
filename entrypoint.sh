@@ -31,7 +31,6 @@ fi
 
 # Aplicar migrações (seguro mesmo com dados)
 echo "🛠 Applying migrations..."
-python manage.py migrate --fake tecweb 0001_initial
 python manage.py migrate --noinput
 
 # Collect static files to mounted volume

@@ -45,17 +45,13 @@ class SessaoEventoAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if request.user.is_superuser or request.user.groups.filter(name='manager').exists():
+        if request.user.is_superuser or request.user.groups.filter(name='gestor_sessoes').exists():
             return qs
         try:
             orador = request.user.orador
             return qs.filter(oradores=orador)
         except Orador.DoesNotExist:
             return qs.none()  # Users sem orador não veem nada
-
-
-
-
 
 from .models import Horario
 from .forms import HorarioForm
@@ -111,8 +107,8 @@ class OradorAdmin(admin.ModelAdmin):
 
     short_cv.short_description = "CV"
 
-    def is_manager(self, request):
-        return request.user.groups.filter(name='manager').exists()
+    def is_gestor(self, request):
+        return request.user.groups.filter(name='gestor_sessoes').exists()
 
     def is_orador(self, request):
         return request.user.groups.filter(name='orador').exists()
@@ -129,7 +125,7 @@ class OradorAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
 
         # Gestores (e superusers) veem todos
-        if request.user.is_superuser or self.is_manager(request):
+        if request.user.is_superuser or self.is_gestor(request):
             return qs
 
         # Oradores veem apenas o seu registo
@@ -140,7 +136,7 @@ class OradorAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         # Gestores (e superusers) podem editar tudo
-        if request.user.is_superuser or self.is_manager(request):
+        if request.user.is_superuser or self.is_gestor(request):
             return True
 
         # Oradores só podem editar o próprio
@@ -151,7 +147,7 @@ class OradorAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         # Gestores (e superusers) podem apagar tudo
-        if request.user.is_superuser or self.is_manager(request):
+        if request.user.is_superuser or self.is_gestor(request):
             return True
 
         # Oradores só podem apagar o próprio

@@ -1,9 +1,35 @@
 ano_atual=2026
 MAX_SESSOES = 7
+
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import SessaoEvento, Aluno, Inscricao, Tipo, Entidade, Orador, User, Inquerito
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+def is_manager(user):
+    return user.is_authenticated and user.groups.filter(name="manager").exists()
+
+
+def feedback_numerico_view(request):
+    sessoes = SessaoEvento.objects.filter(ano=ano_atual)
+    sessoes_feedback = []
+    for sessao in sessoes:
+        inqs = Inquerito.objects.filter(inscricao__sessao=sessao)
+        def avg(field):
+            vals = [getattr(i, field) for i in inqs if getattr(i, field, 0) > 0]
+            return sum(vals)/len(vals) if vals else 0
+        sessoes_feedback.append({
+            'titulo': sessao.titulo,
+            'media_interesse': avg('interesse'),
+            'media_qualidade': avg('qualidade'),
+            'media_relevancia': avg('relevancia'),
+            'media_formador': avg('formador'),
+            'media_conteudos': avg('conteudos'),
+            'media_satisfacao': avg('satisfacao'),
+        })
+    context = {
+        'sessoes': sessoes_feedback
+    }
+    return render(request, 'tecweb/feedback_numerico.html', context)
 from .forms import InqueritoForm
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
@@ -756,31 +782,3 @@ def autentica_orador(request):
         )
     
     
-
-
-
-def is_manager(user):
-    return user.is_authenticated and user.groups.filter(name="manager").exists()
-
-
-def feedback_numerico_view(request):
-    sessoes = SessaoEvento.objects.filter(ano=ano_atual)
-    sessoes_feedback = []
-    for sessao in sessoes:
-        inqs = Inquerito.objects.filter(inscricao__sessao=sessao)
-        def avg(field):
-            vals = [getattr(i, field) for i in inqs if getattr(i, field, 0) > 0]
-            return sum(vals)/len(vals) if vals else 0
-        sessoes_feedback.append({
-            'titulo': sessao.titulo,
-            'media_interesse': avg('interesse'),
-            'media_qualidade': avg('qualidade'),
-            'media_relevancia': avg('relevancia'),
-            'media_formador': avg('formador'),
-            'media_conteudos': avg('conteudos'),
-            'media_satisfacao': avg('satisfacao'),
-        })
-    context = {
-        'sessoes': sessoes_feedback
-    }
-    return render(request, 'tecweb/feedback_numerico.html', context)
