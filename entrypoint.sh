@@ -2,22 +2,30 @@
 set -e
 
 DB_PATH="/data/db.sqlite3"
-INITIAL_DB="/initial_db.sqlite3"
+BACKUP_JSON="/app/initial_data/backup.json"
 
 echo "🚀 Starting Django container..."
 
 # Garantir pasta /data
 mkdir -p /data
 
-# Se não existir BD no volume, copiar a inicial
-if [ ! -f "$DB_PATH" ]; then
-  echo "📦 No production database found."
-  echo "➡️  Initializing database from template..."
-  cp "$INITIAL_DB" "$DB_PATH"
-else
-  echo "✅ Production database found. Keeping existing data."
-fi
+# Aplicar migrações (cria tabelas se BD não existir)
+echo "🛠 Applying migrations..."
+python manage.py migrate --noinput
 
+# Se a BD acabou de ser criada, carregar dados do backup.json
+if [ ! -f "$DB_PATH.initialized" ]; then
+  if [ -f "$BACKUP_JSON" ]; then
+    echo "📦 Loading initial data from backup.json..."
+    python manage.py loaddata "$BACKUP_JSON"
+    touch "$DB_PATH.initialized"
+    echo "✅ Initial data loaded successfully."
+  else
+    echo "⚠️  No backup.json found at $BACKUP_JSON. Skipping data load."
+  fi
+else
+  echo "✅ Database already initialized. Skipping data load."
+fi
 
 # Garantir permissões
 chmod 664 "$DB_PATH"
@@ -28,10 +36,6 @@ if [ -d "/app/media" ] && [ "$(ls -A /app/media)" ]; then
 else
   echo "⚠️  Media folder missing or empty!"
 fi
-
-# Aplicar migrações (seguro mesmo com dados)
-echo "🛠 Applying migrations..."
-python manage.py migrate --noinput
 
 # Collect static files to mounted volume
 echo "📦 Collecting static files..."
