@@ -66,7 +66,7 @@ if CODESPACES:
 
 # Application definition
 
-SITE_ID = int(os.environ.get('SITE_ID') or '5')
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
