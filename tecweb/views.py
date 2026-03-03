@@ -781,4 +781,24 @@ def autentica_orador(request):
             }
         )
     
-    
+
+import os
+import zipfile
+from django.conf import settings
+from django.http import FileResponse
+
+def zip_media(request):
+    zip_path = os.path.join(settings.MEDIA_ROOT, "media_backup.zip")
+
+    # Cria ou sobrescreve o zip
+    with zipfile.ZipFile(zip_path, "w") as zip_file:
+        for root, dirs, files in os.walk(settings.MEDIA_ROOT):
+            for file in files:
+                if file == "media_backup.zip":
+                    continue  # não incluir o próprio zip
+                file_path = os.path.join(root, file)
+                arcname = os.path.relpath(file_path, settings.MEDIA_ROOT)
+                zip_file.write(file_path, arcname)
+
+    # Serve o zip para download
+    return FileResponse(open(zip_path, "rb"), as_attachment=True)
