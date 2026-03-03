@@ -72,14 +72,18 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 
 SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPES": {
-            "profile",
-            "email",
-            "openid"
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
         },
-        "AUTH_PARAMS": {
-            "access_type": "online"
+        "APP": {
+            "client_id": "758360840702-s42if90mdpk91tmhot9is9acd1jcl1iu.apps.googleusercontent.com",
+            "secret": "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",
+            "key": "",
         }
     }
 }
