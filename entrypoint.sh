@@ -37,6 +37,17 @@ else
   echo "⚠️  Media folder missing or empty!"
 fi
 
+# Update Django Sites domain
+echo "🌐 Updating Django Site domain..."
+python manage.py shell -c "
+from django.contrib.sites.models import Site
+site = Site.objects.get_or_create(id=1)[0]
+site.domain = 'tecweb26.pw.deisi.ulusofona.pt'
+site.name = 'TecWeb 26'
+site.save()
+print('Site domain updated to', site.domain)
+"
+
 # Collect static files to mounted volume
 echo "📦 Collecting static files..."
 python manage.py collectstatic --noinput
