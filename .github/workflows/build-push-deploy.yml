@@ -65,6 +65,8 @@ jobs:
 
             echo "Starting new container with persistent SQLite..."
 
+            docker volume rm "${STUDENT_ID}_sqlite" || true
+
             docker run -d \
               --name "${STUDENT_ID}" \
               --network vm-pw_pw-network \
