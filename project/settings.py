@@ -101,10 +101,19 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http" if DEBUG else "https"
 SOCIALACCOUNT_REDIRECT_URL = os.environ.get('SITE_URL', f"https://{DEFAULT_DOMAIN}")
 
 SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPE": ["profile", "email"],
-        "AUTH_PARAMS": {"access_type": "online"},
-        "OAUTH_PKCE_ENABLED": True,
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        "APP": {
+            "client_id": "758360840702-s42if90mdpk91tmhot9is9acd1jcl1iu.apps.googleusercontent.com",
+            "secret": "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",
+            "key": "",
+        }
     }
 }
 
