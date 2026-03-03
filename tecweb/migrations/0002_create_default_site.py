@@ -6,6 +6,7 @@ def create_default_site(apps, schema_editor):
     Site = apps.get_model('sites', 'Site')
     domain = os.environ.get('SITE_DOMAIN', 'tecweb26.pw.deisi.ulusofona.pt')
     name = os.environ.get('SITE_NAME', 'tecweb26')
+    Site.objects.filter(domain=domain).exclude(id=1).delete()
     Site.objects.update_or_create(
         id=1,
         defaults={'domain': domain, 'name': name},
