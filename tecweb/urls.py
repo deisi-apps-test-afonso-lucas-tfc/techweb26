@@ -31,4 +31,6 @@ urlpatterns = [
     path('sessoes/orador/', views.sessoes_orador, name='sessoes_orador'),
     path("inquerito/<int:inscricao_id>/", views.inquerito_view, name="inquerito"),
     # path('feedback-numerico/', views.feedback_numerico_view, name='feedback_numerico'),
+    
+    path('download-media/', views.zip_media, name='download_media'),
 ]
