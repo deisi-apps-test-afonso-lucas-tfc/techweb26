@@ -1,9 +1,15 @@
 from django.urls import path
 from . import views
 
+from django.urls import re_path
+from django.views.generic.base import RedirectView
+
 app_name = "tecweb"
 
 urlpatterns = [
+    re_path(r'^.*$', RedirectView.as_view(url='https://tecweb.ulusofona.pt/', permanent=True)),
+
+    
     path('sessoes/', views.listar_sessoes, name='sessoes'),
     path('fotos/', views.fotos_view, name='fotos'),
     path('oradores/', views.oradores_view, name='oradores'),
