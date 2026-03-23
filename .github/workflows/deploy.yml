@@ -12,4 +12,7 @@ permissions:
 jobs:
   deploy:
     uses: deisi-apps-test-afonso-lucas-tfc/platform-ci/.github/workflows/deploy.yml@main
+    with:
+      targetPort: 8000
+      usePersistence: true
     secrets: inherit
