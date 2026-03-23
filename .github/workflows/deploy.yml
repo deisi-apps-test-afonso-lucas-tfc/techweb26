@@ -13,4 +13,3 @@ jobs:
   deploy:
     uses: deisi-apps-test-afonso-lucas-tfc/platform-ci/.github/workflows/deploy.yml@main
     secrets: inherit
-    
