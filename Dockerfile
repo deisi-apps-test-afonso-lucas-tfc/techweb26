@@ -1,28 +1,26 @@
 FROM python:3.11-slim
 
+# Impedir que o Python gere ficheiros .pyc e garantir logs em tempo real
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# 1. Criar um utilizador para a app (boas práticas de segurança)
-RUN adduser --disabled-password --gecos "" appuser
-
 WORKDIR /app
 
-# 2. Instalar dependências (como root ainda)
+# 1. Instalar dependências como root (necessário para permissões de sistema)
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# 3. COPIAR O CÓDIGO JÁ COM O DONO CERTO
-# O segredo está no --chown
-COPY --chown=appuser:appuser . .
+# 2. O PASSO CRUCIAL: Copiar o código definindo o utilizador 1000 como dono
+# Isto evita o erro "Permission denied: '/app/debug.log'"
+COPY --chown=1000:1000 . .
 
-# 4. Ajustar permissões do entrypoint
+# 3. Garantir que o entrypoint tem permissão de execução
 RUN chmod +x /app/entrypoint.sh
 
-# 5. Mudar para o utilizador da app
-# A partir daqui, nada corre como root
-USER appuser
+# 4. Forçar o container a correr com o utilizador 1000 (Segurança K8s)
+USER 1000
 
-EXPOSE 3000
+# Porta 8000 (ajustada para coincidir com o teu Workflow do GitHub)
+EXPOSE 8000
 
 CMD ["/app/entrypoint.sh"]
