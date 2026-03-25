@@ -15,5 +15,4 @@ jobs:
     with:
       targetPort: "8000"
       usePersistence: true
-    secrets: inherit  
-    
+    secrets: inherit
